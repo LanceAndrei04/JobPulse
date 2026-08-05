@@ -14,4 +14,32 @@ export class JobRepository {
       create: job,
     });
   }
+
+  async getJobs({
+    page = 1,
+    limit = 20,
+  }: {
+    page?: number;
+    limit?: number;
+  }) {
+    const skip = (page - 1) * limit;
+
+    const [jobs, total] = await Promise.all([
+      prisma.jobPosting.findMany({
+        skip,
+        take: limit,
+        orderBy: {
+          postedAt: "desc",
+        },
+      }),
+      prisma.jobPosting.count(),
+    ]);
+
+    return {
+      jobs,
+      total,
+      page,
+      limit,
+    };
+  }
 }

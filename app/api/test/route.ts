@@ -1,10 +1,13 @@
 import { NextResponse } from "next/server";
-import { JobImportService } from "@/services/job-import.service";
+import { JobRepository } from "@/repositories/job.repository";
 
 export async function GET() {
-  const service = new JobImportService();
+  const repository = new JobRepository();
 
-  const result = await service.import();
+  const jobs = await repository.getJobs({
+    page: 1,
+    limit: 20,
+  });
 
-  return NextResponse.json(result);
+  return NextResponse.json(jobs);
 }
