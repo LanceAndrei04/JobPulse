@@ -13,3 +13,94 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model JobPosting {
+  // Primary Key
+  id String @id @default(uuid())
+
+  // External Source
+  externalId String
+  source     String
+
+  // Job Information
+  title       String
+  companyName String
+  description String
+
+  // Classification
+  category String?
+
+  // Employment
+  contractTime String?
+  contractType String?
+
+  // Salary
+  salaryMin       Float?
+  salaryMax       Float?
+  salaryPredicted Boolean?
+
+  // Location
+  country   String?
+  state     String?
+  city      String?
+  latitude  Float?
+  longitude Float?
+
+  // External Link
+  redirectUrl String?
+
+  // Dates
+  postedAt  DateTime
+  fetchedAt DateTime
+
+  // Audit Fields
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  skills JobPostingSkill[]
+
+  @@unique([source, externalId])
+  @@index([title])
+  @@index([companyName])
+  @@index([city])
+  @@index([postedAt])
+}
+
+model Skill {
+  id String @id @default(uuid())
+
+  name           String
+  normalizedName String  @unique
+  category       String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  jobs JobPostingSkill[]
+}
+
+model JobPostingSkill {
+  jobPostingId String
+  skillId      String
+
+  jobPosting JobPosting @relation(fields: [jobPostingId], references: [id], onDelete: Cascade)
+  skill      Skill      @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  @@id([jobPostingId, skillId])
+}
+
+model FetchLog {
+  id String @id @default(uuid())
+
+  startedAt  DateTime
+  finishedAt DateTime?
+
+  jobsFetched  Int
+  jobsInserted Int
+
+  status       String
+  errorMessage String?
+
+  createdAt DateTime @default(now())
+}
