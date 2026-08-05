@@ -19,39 +19,72 @@ export class JobRepository {
   async getJobs(query: JobQuery) {
     const skip = (query.page - 1) * query.limit;
 
-    const where: Prisma.JobPostingWhereInput = {};
+    // Build filters dynamically
+    const andConditions: Prisma.JobPostingWhereInput[] = [];
 
+    // Search filter
     if (query.search) {
-      where.OR = [
-        {
-          title: {
-            contains: query.search,
-            mode: "insensitive",
+      andConditions.push({
+        OR: [
+          {
+            title: {
+              contains: query.search,
+              mode: "insensitive",
+            },
           },
-        },
-        {
-          companyName: {
-            contains: query.search,
-            mode: "insensitive",
+          {
+            companyName: {
+              contains: query.search,
+              mode: "insensitive",
+            },
           },
-        },
-        {
-          description: {
-            contains: query.search,
-            mode: "insensitive",
+          {
+            description: {
+              contains: query.search,
+              mode: "insensitive",
+            },
           },
-        },
-      ];
+        ],
+      });
     }
+
+    // Location filter
+    if (query.location) {
+      andConditions.push({
+        OR: [
+          {
+            state: {
+              contains: query.location,
+              mode: "insensitive",
+            },
+          },
+          {
+            city: {
+              contains: query.location,
+              mode: "insensitive",
+            },
+          },
+        ],
+      });
+    }
+
+    // Final where clause
+    const where: Prisma.JobPostingWhereInput =
+      andConditions.length > 0
+        ? { AND: andConditions }
+        : {};
+
+    // Sorting
+    const orderBy: Prisma.JobPostingOrderByWithRelationInput = {
+      postedAt: query.sort === "oldest" ? "asc" : "desc",
+    };
 
     const [jobs, total] = await Promise.all([
       prisma.jobPosting.findMany({
         where,
         skip,
         take: query.limit,
-        orderBy: {
-          postedAt: "desc",
-        },
+        orderBy,
       }),
       prisma.jobPosting.count({
         where,
