@@ -1,31 +1,25 @@
 import { NextResponse } from "next/server";
-
-import { fetchJobs } from "@/lib/adzuna";
-import { mapAdzunaJob } from "@/lib/mappers/adzuna.mapper";
+import { JobImportService } from "@/services/job-import.service";
 
 export async function GET() {
   try {
-    const data = await fetchJobs();
+    const service = new JobImportService();
 
-    const mapped = data.results.map(mapAdzunaJob);
+    const result = await service.import();
 
     return NextResponse.json({
       success: true,
-      total: data.count,
-      received: mapped.length,
-      firstJob: mapped[0],
+      ...result,
     });
   } catch (error) {
-    console.error(error);
+  console.error("Import Error:", error);
 
-    return NextResponse.json(
-      {
-        success: false,
-        message: "Failed to fetch jobs.",
-      },
-      {
-        status: 500,
-      }
-    );
-  }
+  return NextResponse.json(
+    {
+      success: false,
+      error: error instanceof Error ? error.message : "Unknown error",
+    },
+    { status: 500 }
+  );
+}
 }
