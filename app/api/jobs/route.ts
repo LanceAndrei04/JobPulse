@@ -8,9 +8,9 @@ export async function GET(request: Request) {
   try {
     const query = validateJobQuery(request);
 
-    const jobs = await service.getJobs(query);
+    const result = await service.getJobs(query);
 
-    return NextResponse.json(jobs);
+    return NextResponse.json(result);
   } catch (error) {
     return NextResponse.json(
       {

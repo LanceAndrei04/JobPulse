@@ -10,6 +10,14 @@ export function validateJobQuery(request: Request): JobQuery {
   const pageParam = searchParams.get("page");
   const limitParam = searchParams.get("limit");
 
+  const search = searchParams.get("search") ?? undefined;
+  const location = searchParams.get("location") ?? undefined;
+
+  const sort =
+    searchParams.get("sort") === "oldest"
+      ? "oldest"
+      : "latest";
+
   const page = pageParam ? Number(pageParam) : DEFAULT_PAGE;
   const limit = limitParam ? Number(limitParam) : DEFAULT_LIMIT;
 
@@ -22,11 +30,16 @@ export function validateJobQuery(request: Request): JobQuery {
     limit < 1 ||
     limit > MAX_LIMIT
   ) {
-    throw new Error(`Limit must be between 1 and ${MAX_LIMIT}.`);
+    throw new Error(
+      `Limit must be between 1 and ${MAX_LIMIT}.`
+    );
   }
 
   return {
     page,
     limit,
+    search,
+    location,
+    sort,
   };
 }

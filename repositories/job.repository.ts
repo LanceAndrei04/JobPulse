@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@/lib/generated/prisma";
+import { JobQuery } from "@/types/job";
 
 export class JobRepository {
   async upsert(job: Prisma.JobPostingCreateInput) {
@@ -15,31 +16,53 @@ export class JobRepository {
     });
   }
 
-  async getJobs({
-    page = 1,
-    limit = 20,
-  }: {
-    page?: number;
-    limit?: number;
-  }) {
-    const skip = (page - 1) * limit;
+  async getJobs(query: JobQuery) {
+    const skip = (query.page - 1) * query.limit;
+
+    const where: Prisma.JobPostingWhereInput = {};
+
+    if (query.search) {
+      where.OR = [
+        {
+          title: {
+            contains: query.search,
+            mode: "insensitive",
+          },
+        },
+        {
+          companyName: {
+            contains: query.search,
+            mode: "insensitive",
+          },
+        },
+        {
+          description: {
+            contains: query.search,
+            mode: "insensitive",
+          },
+        },
+      ];
+    }
 
     const [jobs, total] = await Promise.all([
       prisma.jobPosting.findMany({
+        where,
         skip,
-        take: limit,
+        take: query.limit,
         orderBy: {
           postedAt: "desc",
         },
       }),
-      prisma.jobPosting.count(),
+      prisma.jobPosting.count({
+        where,
+      }),
     ]);
 
     return {
       jobs,
       total,
-      page,
-      limit,
+      page: query.page,
+      limit: query.limit,
     };
   }
 }
