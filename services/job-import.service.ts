@@ -1,3 +1,4 @@
+import { techKeywords } from "@/config/tech-words";
 import { fetchJobs } from "@/lib/adzuna";
 import { mapAdzunaJob } from "@/lib/mappers/adzuna.mapper";
 import { JobRepository } from "@/repositories/job.repository";
@@ -5,21 +6,29 @@ import { JobRepository } from "@/repositories/job.repository";
 export class JobImportService {
   private repository = new JobRepository();
 
-  async import(page = 1) {
-    const response = await fetchJobs(page);
+async import(maxPages = 3) {
+  let fetched = 0;
+  let processed = 0;
 
-    const mappedJobs = response.results.map(mapAdzunaJob);
+  for (const search of techKeywords) {
+    for (let page = 1; page <= maxPages; page++) {
+      const response = await fetchJobs(search.keyword, page);
 
-    let inserted = 0;
+      const mappedJobs = response.results.map(mapAdzunaJob);
 
-    for (const job of mappedJobs) {
-      await this.repository.upsert(job);
-      inserted++;
+      fetched += mappedJobs.length;
+
+      for (const job of mappedJobs) {
+        await this.repository.upsert(job);
+        processed++;
+      }
     }
-
-    return {
-      fetched: mappedJobs.length,
-      inserted,
-    };
   }
+
+  return {
+    keywords: techKeywords.length,
+    fetched,
+    processed,
+  };
+}
 }

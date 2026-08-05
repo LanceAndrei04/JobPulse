@@ -1,14 +1,15 @@
-const BASE_URL = "https://api.adzuna.com/v1/api/jobs";
+import { adzunaConfig } from "@/config/adzuna";
 
-const APP_ID = process.env.ADZUNA_APP_ID!;
-const APP_KEY = process.env.ADZUNA_APP_KEY!;
-
-export async function fetchJobs(page = 1) {
+export async function fetchJobs(
+  keyword: string,
+  page = 1
+) {
   const url =
-    `${BASE_URL}/us/search/${page}` +
-    `?app_id=${APP_ID}` +
-    `&app_key=${APP_KEY}` +
-    `&results_per_page=20`;
+    `${adzunaConfig.baseUrl}/${adzunaConfig.country}/search/${page}` +
+    `?app_id=${adzunaConfig.appId}` +
+    `&app_key=${adzunaConfig.appKey}` +
+    `&results_per_page=${adzunaConfig.resultsPerPage}` +
+    `&what=${encodeURIComponent(keyword)}`;
 
   const response = await fetch(url);
 

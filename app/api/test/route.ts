@@ -1,18 +1,10 @@
-import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { JobImportService } from "@/services/job-import.service";
 
 export async function GET() {
-  const job = await prisma.jobPosting.create({
-    data: {
-      externalId: "TEST-001",
-      source: "Adzuna",
-      title: "Frontend Developer",
-      companyName: "OpenAI",
-      description: "Looking for React developers.",
-      postedAt: new Date(),
-      fetchedAt: new Date(),
-    },
-  });
+  const service = new JobImportService();
 
-  return NextResponse.json(job);
+  const result = await service.import();
+
+  return NextResponse.json(result);
 }
