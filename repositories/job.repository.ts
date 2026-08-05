@@ -19,10 +19,9 @@ export class JobRepository {
   async getJobs(query: JobQuery) {
     const skip = (query.page - 1) * query.limit;
 
-    // Build filters dynamically
     const andConditions: Prisma.JobPostingWhereInput[] = [];
 
-    // Search filter
+    // Search
     if (query.search) {
       andConditions.push({
         OR: [
@@ -48,7 +47,7 @@ export class JobRepository {
       });
     }
 
-    // Location filter
+    // Location
     if (query.location) {
       andConditions.push({
         OR: [
@@ -68,13 +67,20 @@ export class JobRepository {
       });
     }
 
-    // Final where clause
+    // Contract Time
+    if (query.contractTime) {
+      andConditions.push({
+        contractTime: query.contractTime,
+      });
+    }
+
+    // Build WHERE clause
     const where: Prisma.JobPostingWhereInput =
       andConditions.length > 0
         ? { AND: andConditions }
         : {};
 
-    // Sorting
+    // Build ORDER BY clause
     const orderBy: Prisma.JobPostingOrderByWithRelationInput = {
       postedAt: query.sort === "oldest" ? "asc" : "desc",
     };
@@ -86,6 +92,7 @@ export class JobRepository {
         take: query.limit,
         orderBy,
       }),
+
       prisma.jobPosting.count({
         where,
       }),

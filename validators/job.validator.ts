@@ -12,6 +12,7 @@ export function validateJobQuery(request: Request): JobQuery {
 
   const search = searchParams.get("search") ?? undefined;
   const location = searchParams.get("location") ?? undefined;
+  const contractTime = searchParams.get("contractTime") ?? undefined;
 
   const sort =
     searchParams.get("sort") === "oldest"
@@ -40,6 +41,7 @@ export function validateJobQuery(request: Request): JobQuery {
     limit,
     search,
     location,
+    contractTime,
     sort,
   };
 }

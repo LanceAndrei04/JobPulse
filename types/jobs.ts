@@ -1,8 +1,11 @@
 export interface JobQuery {
   page: number;
   limit: number;
+
   search?: string;
   location?: string;
+  contractTime?: string;
+
   sort?: "latest" | "oldest";
 }
 
