@@ -105,4 +105,27 @@ export class JobRepository {
       limit: query.limit,
     };
   }
+
+  async findAll(limit?: number) {
+  return prisma.jobPosting.findMany({
+    take: limit,
+    select: {
+      id: true,
+      title: true,
+      description: true,
+    },
+  });
+}
+
+async attachSkills(jobId: string, skillIds: string[]) {
+  if (skillIds.length === 0) return;
+
+  await prisma.jobPostingSkill.createMany({
+    data: skillIds.map((skillId) => ({
+      jobPostingId: jobId,
+      skillId,
+    })),
+    skipDuplicates: true,
+  });
+}
 }
