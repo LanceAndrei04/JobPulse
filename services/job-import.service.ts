@@ -19,8 +19,15 @@ async import(maxPages = 3) {
       fetched += mappedJobs.length;
 
       for (const job of mappedJobs) {
-        await this.repository.upsert(job);
-        processed++;
+        try {
+          await this.repository.upsert(job);
+          processed++;
+        } catch (error) {
+          console.error(
+            `Failed to import job ${job.externalId}:`,
+            error
+          );
+        }
       }
     }
   }

@@ -1,3 +1,6 @@
+-- CreateEnum
+CREATE TYPE "SkillCategory" AS ENUM ('LANGUAGE', 'FRAMEWORK', 'LIBRARY', 'RUNTIME', 'DATABASE', 'CLOUD', 'DEVOPS', 'TOOL', 'TESTING', 'MOBILE', 'AI', 'OTHER');
+
 -- CreateTable
 CREATE TABLE "JobPosting" (
     "id" TEXT NOT NULL,
@@ -31,7 +34,7 @@ CREATE TABLE "Skill" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "normalizedName" TEXT NOT NULL,
-    "category" TEXT,
+    "category" "SkillCategory",
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -42,6 +45,7 @@ CREATE TABLE "Skill" (
 CREATE TABLE "JobPostingSkill" (
     "jobPostingId" TEXT NOT NULL,
     "skillId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "JobPostingSkill_pkey" PRIMARY KEY ("jobPostingId","skillId")
 );
@@ -76,7 +80,16 @@ CREATE INDEX "JobPosting_postedAt_idx" ON "JobPosting"("postedAt");
 CREATE UNIQUE INDEX "JobPosting_source_externalId_key" ON "JobPosting"("source", "externalId");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Skill_name_key" ON "Skill"("name");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Skill_normalizedName_key" ON "Skill"("normalizedName");
+
+-- CreateIndex
+CREATE INDEX "JobPostingSkill_jobPostingId_idx" ON "JobPostingSkill"("jobPostingId");
+
+-- CreateIndex
+CREATE INDEX "JobPostingSkill_skillId_idx" ON "JobPostingSkill"("skillId");
 
 -- AddForeignKey
 ALTER TABLE "JobPostingSkill" ADD CONSTRAINT "JobPostingSkill_jobPostingId_fkey" FOREIGN KEY ("jobPostingId") REFERENCES "JobPosting"("id") ON DELETE CASCADE ON UPDATE CASCADE;

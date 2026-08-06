@@ -1,26 +1,13 @@
 export const techKeywords = [
-  {
-    keyword: "frontend developer",
-    category: "Frontend",
-  },
-  {
-    keyword: "backend developer",
-    category: "Backend",
-  },
-  {
-    keyword: "full stack developer",
-    category: "Full Stack",
-  },
-  {
-    keyword: "react developer",
-    category: "Frontend",
-  },
-  {
-    keyword: "next.js developer",
-    category: "Frontend",
-  },
-  {
-    keyword: "software engineer",
-    category: "General",
-  },
+  { keyword: "software engineer", category: "General" },
+  { keyword: "frontend developer", category: "Frontend" },
+  { keyword: "backend developer", category: "Backend" },
+  { keyword: "full stack developer", category: "Full Stack" },
+  { keyword: "mobile developer", category: "Mobile" },
+  { keyword: "devops engineer", category: "DevOps" },
+  { keyword: "cloud engineer", category: "Cloud" },
+  { keyword: "data engineer", category: "Data" },
+  { keyword: "machine learning engineer", category: "AI" },
+  { keyword: "ai engineer", category: "AI" },
+  { keyword: "cybersecurity engineer", category: "Security" },
 ];
