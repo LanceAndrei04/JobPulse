@@ -23,16 +23,13 @@ export function RankedMetricRow({
 }: RankedMetricRowProps) {
   const boundedPercentage = Math.min(Math.max(percentage, 0), 100);
   const rankLabel = rank.toString().padStart(2, "0");
-  const Comp = href ? Link : "div";
+  const className = cn(
+    "group block rounded-lg border border-border bg-card px-4 py-4 shadow-[var(--shadow-xs)] outline-none transition-all hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-[var(--shadow-sm)] focus-visible:ring-3 focus-visible:ring-ring/35",
+    href && "cursor-pointer"
+  );
 
-  return (
-    <Comp
-      href={href ?? ""}
-      className={cn(
-        "group block rounded-lg border border-border bg-card px-4 py-4 shadow-[var(--shadow-xs)] outline-none transition-all hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-[var(--shadow-sm)] focus-visible:ring-3 focus-visible:ring-ring/35",
-        href && "cursor-pointer"
-      )}
-    >
+  const content = (
+    <>
       <div className="grid gap-3 sm:grid-cols-[3rem_1fr_auto] sm:items-start">
         <span className="font-mono text-xs font-medium text-muted-foreground">
           {rankLabel}
@@ -66,6 +63,16 @@ export function RankedMetricRow({
           aria-hidden="true"
         />
       </div>
-    </Comp>
+    </>
   );
+
+  if (href) {
+    return (
+      <Link href={href} className={className}>
+        {content}
+      </Link>
+    );
+  }
+
+  return <div className={className}>{content}</div>;
 }
