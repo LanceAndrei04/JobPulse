@@ -140,7 +140,7 @@ export const skills: SkillDefinition[] = [
   {
     name: "Next.js",
     normalizedName: "next.js",
-    aliases: ["nextjs", "next"],
+    aliases: ["nextjs", "next js"],
     category: SkillCategory.FRAMEWORK,
   },
   {

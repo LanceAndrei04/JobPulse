@@ -23,27 +23,9 @@ export class SkillExtractionService {
       ).values(),
     ];
 
-    console.log("----- Title Matches -----");
     console.log(
-      titleSkills.length
-        ? titleSkills.map(s => s.name).join(", ")
-        : "None"
-    );
-
-    console.log("\n----- Description Matches -----");
-    console.log(
-      descriptionSkills.length
-        ? descriptionSkills.map(s => s.name).join(", ")
-        : "None"
-    );
-
-    console.log("\n----- Final Skills -----");
-    console.log(
-      extracted.length
-        ? extracted.map(s => s.name).join(", ")
-        : "None"
-    );
-
+  `Processed ${index + 1}/${jobs.length} - ${job.title} - ${extracted.length} skills`
+);
         if (extracted.length > 0) {
           await this.jobRepository.attachSkills(job.id, extracted);
         }
@@ -60,9 +42,16 @@ export class SkillExtractionService {
  private extract(text: string, skills: Skill[]): Skill[] {
   const normalizedText = this.normalize(text);
 
-  return skills.filter((skill) =>
-    this.matchesSkill(normalizedText, skill.normalizedName)
-  );
+  return skills.filter((skill) => {
+    const candidates = [
+      skill.normalizedName,
+      ...skill.aliases,
+    ];
+
+    return candidates.some((candidate) =>
+      this.matchesSkill(normalizedText, candidate)
+    );
+  });
 }
 
 private matchesSkill(text: string, skill: string): boolean {
