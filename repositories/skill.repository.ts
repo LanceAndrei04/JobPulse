@@ -11,6 +11,7 @@ export class SkillRepository {
         update: {
           name: skill.name,
           category: skill.category,
+          aliases: skill.aliases,
         },
         create: skill,
       });

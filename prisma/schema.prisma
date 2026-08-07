@@ -76,24 +76,13 @@ model JobPosting {
   @@index([city])
   @@index([postedAt])
 }
-
 model Skill {
   id String @id @default(uuid())
 
-  /// Display name
-  /// Example:
-  /// React
-  /// Next.js
-  /// TypeScript
-  name String @unique
-
-  /// Used for matching during extraction
-  /// Examples:
-  /// react
-  /// nextjs
-  /// typescript
+  name           String @unique
   normalizedName String @unique
 
+  aliases  String[] @default([])
   category SkillCategory?
 
   createdAt DateTime @default(now())

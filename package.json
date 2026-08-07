@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "discover:skills": "tsx scripts/discover-skills.ts",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
