@@ -17,7 +17,7 @@ export function MarketPresenceSection({
   totalJobs,
 }: MarketPresenceSectionProps) {
   return (
-    <section id="presence" className="scroll-mt-28 border-b border-border py-14">
+    <section id="presence">
       <SectionHeader
         eyebrow="01"
         title="Market Presence"

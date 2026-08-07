@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 type SectionNavItem = {
   id: string;
@@ -9,56 +10,55 @@ type SectionNavItem = {
 
 type SkillSectionNavProps = {
   items: SectionNavItem[];
+  activeId: string;
+  onChange: (id: string) => void;
 };
 
-export function SkillSectionNav({ items }: SkillSectionNavProps) {
-  const [activeId, setActiveId] = useState(items[0]?.id);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-
-        if (visible?.target.id) {
-          setActiveId(visible.target.id);
-        }
-      },
-      { rootMargin: "-20% 0px -65% 0px", threshold: [0, 0.25, 0.5, 1] }
-    );
-
-    items.forEach((item) => {
-      const element = document.getElementById(item.id);
-      if (element) observer.observe(element);
-    });
-
-    return () => observer.disconnect();
-  }, [items]);
-
+export function SkillSectionNav({
+  items,
+  activeId,
+  onChange,
+}: SkillSectionNavProps) {
   return (
     <nav
-      aria-label="Skill intelligence sections"
-      className="sticky top-0 z-20 border-y border-border/70 bg-background/88 backdrop-blur"
+      aria-label="Skill analysis tabs"
+      className="lg:sticky lg:top-5 lg:h-[calc(100svh-6rem)]"
     >
-      <div className="mx-auto flex w-full max-w-5xl gap-6 overflow-x-auto px-5 py-3 sm:px-8 lg:px-10">
+      <Link
+        href="/"
+        className="mb-4 hidden min-h-10 items-center gap-2 rounded-lg px-3 text-sm font-medium text-muted-foreground outline-none transition-colors hover:bg-card/35 hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/35 lg:flex"
+      >
+        <ArrowLeft className="size-4" aria-hidden="true" />
+        Overview
+      </Link>
+      <div
+        role="tablist"
+        aria-label="Skill analysis sections"
+        className="scrollbar-none flex gap-2 overflow-x-auto border-b border-border pb-3 lg:flex-col lg:overflow-visible lg:border-b-0 lg:pb-0"
+      >
         {items.map((item) => (
-          <a
+          <button
             key={item.id}
-            href={`#${item.id}`}
-            className="relative shrink-0 rounded-sm py-2 text-sm font-medium text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/35"
-            aria-current={activeId === item.id ? "true" : undefined}
+            type="button"
+            role="tab"
+            id={`skill-tab-${item.id}`}
+            aria-controls={`skill-panel-${item.id}`}
+            aria-selected={activeId === item.id}
+            onClick={() => onChange(item.id)}
+            className={`group flex min-h-11 shrink-0 items-center justify-between rounded-lg border px-3 py-2.5 text-left text-sm font-medium outline-none transition-colors focus-visible:ring-3 focus-visible:ring-ring/35 ${
+              activeId === item.id
+                ? "border-primary/30 bg-primary/10 text-foreground"
+                : "border-transparent text-muted-foreground hover:bg-card/45 hover:text-foreground"
+            }`}
           >
-            <span className={activeId === item.id ? "text-foreground" : undefined}>
-              {item.label}
-            </span>
+            <span>{item.label}</span>
             <span
-              className={`absolute inset-x-0 -bottom-3 h-px bg-primary transition-opacity ${
+              className={`hidden h-px w-5 bg-primary transition-opacity lg:block ${
                 activeId === item.id ? "opacity-100" : "opacity-0"
               }`}
               aria-hidden="true"
             />
-          </a>
+          </button>
         ))}
       </div>
     </nav>

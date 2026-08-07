@@ -10,7 +10,7 @@ export function MetricValue({ label, value, detail }: MetricValueProps) {
       <p className="text-xs font-medium uppercase tracking-[0.12em] text-muted-foreground">
         {label}
       </p>
-      <p className="mt-2 text-3xl font-semibold leading-none text-foreground sm:text-4xl">
+      <p className="mt-2 text-2xl font-semibold leading-none text-foreground sm:text-3xl">
         {value}
       </p>
       {detail ? (

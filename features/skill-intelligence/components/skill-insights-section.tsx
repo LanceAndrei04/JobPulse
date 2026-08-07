@@ -12,7 +12,7 @@ export function SkillInsightsSection({ insights }: SkillInsightsSectionProps) {
   }
 
   return (
-    <section id="insights" className="scroll-mt-28 border-b border-border py-14">
+    <section id="insights">
       <SectionHeader
         eyebrow="06"
         title="What the Data Suggests"

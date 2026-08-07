@@ -26,14 +26,14 @@ export function CompensationSection({
   insight,
 }: CompensationSectionProps) {
   return (
-    <section id="salary" className="scroll-mt-28 border-b border-border py-14">
+    <section id="salary">
       <SectionHeader
         eyebrow="04"
         title="Compensation Position"
         question="How does this skill compare with similar tracked skills?"
       />
 
-      <div className="mb-7 grid gap-4 sm:grid-cols-[1fr_auto] sm:items-end">
+      <div className="mb-5 grid gap-4 sm:grid-cols-[1fr_auto] sm:items-end">
         <div>
           <p className="text-sm text-muted-foreground">Estimated average salary</p>
           <p className="mt-2 text-4xl font-semibold text-foreground">

@@ -14,7 +14,7 @@ export function GeographySection({ locations }: GeographySectionProps) {
   }
 
   return (
-    <section id="geography" className="scroll-mt-28 border-b border-border py-14">
+    <section id="geography">
       <SectionHeader
         eyebrow="05"
         title="Geographic Context"

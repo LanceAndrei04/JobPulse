@@ -6,7 +6,7 @@ type SectionHeaderProps = {
 
 export function SectionHeader({ eyebrow, title, question }: SectionHeaderProps) {
   return (
-    <header className="mb-7">
+    <header className="mb-5">
       <p className="font-mono text-xs font-medium text-primary/80">{eyebrow}</p>
       <h2 className="mt-3 text-2xl font-semibold leading-tight text-foreground sm:text-3xl">
         {title}

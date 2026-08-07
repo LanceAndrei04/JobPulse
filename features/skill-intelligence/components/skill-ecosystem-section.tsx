@@ -27,7 +27,7 @@ export function SkillEcosystemSection({
     : relatedSkills;
 
   return (
-    <section id="ecosystem" className="scroll-mt-28 border-b border-border py-14">
+    <section id="ecosystem">
       <SectionHeader
         eyebrow="03"
         title="Skill Ecosystem"

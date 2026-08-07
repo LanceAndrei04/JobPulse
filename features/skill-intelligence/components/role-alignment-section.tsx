@@ -23,7 +23,7 @@ export function RoleAlignmentSection({
   }
 
   return (
-    <section id="roles" className="scroll-mt-28 border-b border-border py-14">
+    <section id="roles">
       <SectionHeader
         eyebrow="02"
         title={`Where ${skillName} Appears`}

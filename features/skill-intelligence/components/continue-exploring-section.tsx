@@ -14,7 +14,7 @@ export function ContinueExploringSection({ items }: ContinueExploringSectionProp
   }
 
   return (
-    <section id="explore" className="scroll-mt-28 py-14">
+    <section id="explore">
       <SectionHeader
         eyebrow="07"
         title="Continue Exploring"
