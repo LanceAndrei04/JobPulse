@@ -1,14 +1,14 @@
 import { notFound } from "next/navigation";
-import { EntityAnalysisPage } from "@/components/entity-analysis-page";
-import { getRoleAnalysis } from "@/lib/market-analysis-data";
+import { RoleIntelligencePage } from "@/features/role-intelligence/components/role-intelligence-page";
+import { getRoleIntelligenceMock } from "@/features/role-intelligence/mocks/role-intelligence.mock";
 
 export default async function RolePage({ params }: PageProps<"/role/[slug]">) {
   const { slug } = await params;
-  const analysis = getRoleAnalysis(slug);
+  const analysis = getRoleIntelligenceMock(slug);
 
   if (!analysis) {
     notFound();
   }
 
-  return <EntityAnalysisPage analysis={analysis} />;
+  return <RoleIntelligencePage data={analysis} />;
 }
