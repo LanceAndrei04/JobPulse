@@ -169,6 +169,15 @@
     display: flex;
     align-items: center;
     scroll-margin-top: 2.5rem;
+    padding-block: clamp(3rem, 6vh, 5.5rem);
+  }
+
+  .overview-shell {
+    background:
+      radial-gradient(ellipse at 18% 9%, color-mix(in oklch, var(--primary) 13%, transparent) 0, transparent 34rem),
+      radial-gradient(ellipse at 86% 46%, rgba(52, 211, 153, 0.055) 0, transparent 38rem),
+      radial-gradient(ellipse at 12% 78%, rgba(56, 189, 248, 0.05) 0, transparent 34rem),
+      linear-gradient(180deg, color-mix(in oklch, var(--background) 91%, #111a2b) 0%, var(--background) 38%, color-mix(in oklch, var(--background) 96%, #0c1625) 100%);
   }
 
   @media (max-width: 1023px) {
@@ -212,6 +221,72 @@
 
   .signal-drift {
     animation: signal-drift 9s ease-in-out infinite alternate;
+  }
+
+  .overview-bokeh {
+    animation: overview-bokeh 12s ease-in-out infinite alternate;
+  }
+
+  .overview-bokeh-delay {
+    animation-delay: 2.5s;
+  }
+
+  .overview-geometry {
+    position: absolute;
+    border: 1px solid rgba(148, 163, 184, 0.055);
+    opacity: 0.52;
+    mask-image: radial-gradient(circle at center, black 0%, black 44%, transparent 74%);
+    background:
+      linear-gradient(rgba(125, 211, 252, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(125, 211, 252, 0.035) 1px, transparent 1px),
+      radial-gradient(circle at 32% 38%, rgba(34, 211, 238, 0.06), transparent 34%),
+      radial-gradient(circle at 72% 66%, rgba(52, 211, 153, 0.04), transparent 36%);
+    background-size: 56px 56px, 56px 56px, 100% 100%, 100% 100%;
+    transform: rotate(-8deg);
+    animation: overview-geometry-drift 18s ease-in-out infinite alternate;
+  }
+
+  .overview-geometry::before,
+  .overview-geometry::after {
+    content: "";
+    position: absolute;
+    border: 1px solid rgba(125, 211, 252, 0.08);
+  }
+
+  .overview-geometry::before {
+    inset: 18%;
+    transform: rotate(18deg);
+  }
+
+  .overview-geometry::after {
+    inset: 34% 10% 20% 42%;
+    border-color: rgba(52, 211, 153, 0.08);
+    transform: rotate(-24deg);
+  }
+
+  .overview-geometry-one {
+    left: 46%;
+    top: 8rem;
+    width: min(42rem, 58vw);
+    height: 28rem;
+  }
+
+  .overview-geometry-two {
+    left: -9rem;
+    top: 62rem;
+    width: min(36rem, 70vw);
+    height: 34rem;
+    animation-delay: 1.4s;
+    transform: rotate(10deg);
+  }
+
+  .overview-geometry-three {
+    right: -12rem;
+    bottom: 18rem;
+    width: min(40rem, 76vw);
+    height: 32rem;
+    animation-delay: 2.7s;
+    transform: rotate(-14deg);
   }
 
   .scrollbar-none {
@@ -264,6 +339,28 @@
     }
   }
 
+  @keyframes overview-bokeh {
+    from {
+      opacity: 0.36;
+      transform: translate3d(-10px, -8px, 0) scale(0.98);
+    }
+    to {
+      opacity: 0.62;
+      transform: translate3d(12px, 10px, 0) scale(1.04);
+    }
+  }
+
+  @keyframes overview-geometry-drift {
+    from {
+      opacity: 0.3;
+      translate: -10px -8px;
+    }
+    to {
+      opacity: 0.56;
+      translate: 12px 10px;
+    }
+  }
+
   @keyframes skill-bar-grow {
     from {
       transform: scaleX(0);
@@ -291,7 +388,9 @@
     .fade-up,
     .parallax-slow,
     .signal-pulse,
-    .signal-drift {
+    .signal-drift,
+    .overview-bokeh,
+    .overview-geometry {
       animation: none !important;
     }
   }
