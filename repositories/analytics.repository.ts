@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { Prisma } from "@/lib/generated/prisma";
+import { roleCaseSql } from "@/lib/role-classifier";
 
 type HighestPayingSkillRow = {
   id: string;
@@ -239,58 +239,7 @@ export class AnalyticsRepository {
         "salaryMin",
         "salaryMax",
 
-        CASE
-          WHEN LOWER("title") LIKE '%full stack%'
-            OR LOWER("title") LIKE '%full-stack%'
-            OR LOWER("title") LIKE '%fullstack%'
-          THEN 'Full Stack Developer'
-
-          WHEN LOWER("title") LIKE '%frontend%'
-            OR LOWER("title") LIKE '%front-end%'
-            OR LOWER("title") LIKE '%front end%'
-          THEN 'Frontend Developer'
-
-          WHEN LOWER("title") LIKE '%backend%'
-            OR LOWER("title") LIKE '%back-end%'
-            OR LOWER("title") LIKE '%back end%'
-          THEN 'Backend Developer'
-
-          WHEN LOWER("title") LIKE '%devops%'
-            OR LOWER("title") LIKE '%dev ops%'
-          THEN 'DevOps Engineer'
-
-          WHEN LOWER("title") LIKE '%machine learning%'
-            OR LOWER("title") LIKE '%ml engineer%'
-          THEN 'Machine Learning Engineer'
-
-          WHEN LOWER("title") LIKE '%ai engineer%'
-            OR LOWER("title") LIKE '%artificial intelligence%'
-          THEN 'AI Engineer'
-
-          WHEN LOWER("title") LIKE '%data engineer%'
-          THEN 'Data Engineer'
-
-          WHEN LOWER("title") LIKE '%cloud engineer%'
-            OR LOWER("title") LIKE '%cloud developer%'
-          THEN 'Cloud Engineer'
-
-          WHEN LOWER("title") LIKE '%cybersecurity%'
-            OR LOWER("title") LIKE '%cyber security%'
-            OR LOWER("title") LIKE '%security engineer%'
-          THEN 'Cybersecurity Engineer'
-
-          WHEN LOWER("title") LIKE '%android%'
-            OR LOWER("title") LIKE '%ios developer%'
-            OR LOWER("title") LIKE '%mobile developer%'
-            OR LOWER("title") LIKE '%mobile engineer%'
-          THEN 'Mobile Developer'
-
-          WHEN LOWER("title") LIKE '%software engineer%'
-            OR LOWER("title") LIKE '%software developer%'
-          THEN 'Software Engineer'
-
-          ELSE NULL
-        END AS "role"
+        ${roleCaseSql} AS "role"
 
       FROM "JobPosting"
     ) classified

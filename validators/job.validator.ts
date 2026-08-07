@@ -1,4 +1,4 @@
-import { JobQuery } from "@/types/job";
+import { JobQuery } from "@/types/jobs";
 
 const DEFAULT_PAGE = 1;
 const DEFAULT_LIMIT = 20;

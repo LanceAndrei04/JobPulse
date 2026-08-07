@@ -2,7 +2,13 @@ import Link from "next/link";
 import { SectionIntro } from "./section-heading";
 import { technologyDemand } from "../data/overview.data";
 
-export function TechnologyDemandSection() {
+type TechnologyDemandSectionProps = {
+  items?: typeof technologyDemand;
+};
+
+export function TechnologyDemandSection({
+  items = technologyDemand,
+}: TechnologyDemandSectionProps) {
   return (
     <section className="overview-section">
       <div className="reveal-panel mx-auto grid w-full max-w-7xl grid-cols-[minmax(18rem,0.42fr)_minmax(0,0.58fr)] items-center gap-8 px-5 py-12 sm:px-8 lg:gap-12 lg:px-10 max-lg:grid-cols-1">
@@ -13,7 +19,7 @@ export function TechnologyDemandSection() {
           note="Bars show detected presence within the current sample, not total market share."
         />
         <div className="min-w-0 overflow-hidden rounded-2xl border border-border/70 bg-card/58 p-4 shadow-[var(--shadow-sm)] backdrop-blur-xl sm:p-5">
-          {technologyDemand.map((item) => (
+          {items.map((item) => (
             <TechnologyRow key={item.label} item={item} />
           ))}
         </div>

@@ -1,4 +1,4 @@
-import { Skill } from "@/lib/generated/prisma";
+import { Skill } from "@/lib/generated/prisma/client";
 import { JobRepository } from "@/repositories/job.repository";
 import { SkillRepository } from "@/repositories/skill.repository";
 

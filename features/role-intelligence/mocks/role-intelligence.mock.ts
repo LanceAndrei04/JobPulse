@@ -130,7 +130,15 @@ function peer(
   estimatedAverage: number,
   salaryObservations: number
 ) {
-  return { name, slug, matchingJobs, estimatedAverage, salaryObservations };
+  return {
+    name,
+    slug,
+    matchingJobs,
+    estimatedAverage,
+    salaryObservations,
+    jobCount: matchingJobs,
+    estimatedSalary: estimatedAverage,
+  };
 }
 
 function location(name: string, matchingJobs: number, share: number) {

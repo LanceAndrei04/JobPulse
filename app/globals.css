@@ -190,7 +190,7 @@
   .reveal-panel {
     animation: fade-up linear both;
     animation-timeline: view();
-    animation-range: entry 8% cover 34%;
+    animation-range: entry 22% cover 48%;
   }
 
   .fade-up {
@@ -301,7 +301,7 @@
   @keyframes fade-up {
     from {
       opacity: 0;
-      transform: translateY(34px);
+      transform: translateY(48px) scale(0.992);
     }
     to {
       opacity: 1;

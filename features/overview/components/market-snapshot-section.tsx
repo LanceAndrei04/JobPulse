@@ -1,7 +1,13 @@
 import { SectionHeading } from "./section-heading";
 import { keySignals, snapshotMetrics } from "../data/overview.data";
 
-export function MarketSnapshotSection() {
+type MarketSnapshotSectionProps = {
+  metrics?: typeof snapshotMetrics;
+};
+
+export function MarketSnapshotSection({
+  metrics = snapshotMetrics,
+}: MarketSnapshotSectionProps) {
   return (
     <section className="overview-section">
       <div className="reveal-panel mx-auto w-full max-w-7xl px-5 py-12 sm:px-8 lg:px-10">
@@ -11,7 +17,7 @@ export function MarketSnapshotSection() {
           description="Dataset-scale context appears first, followed by short signals before the raw section views."
         />
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {snapshotMetrics.map((metric) => (
+          {metrics.map((metric) => (
             <SnapshotCard key={metric.label} metric={metric} />
           ))}
         </div>

@@ -1,7 +1,27 @@
 import { Atom, Cloud } from "lucide-react";
 import { GlobalEntitySearch } from "@/components/global-entity-search";
 
-export function OverviewHeroSection() {
+type HeroSignal = {
+  label: string;
+  detail: string;
+  icon?: "react" | "aws";
+};
+
+type OverviewHeroSectionProps = {
+  totalJobs?: string;
+  signals?: HeroSignal[];
+};
+
+const fallbackSignals: HeroSignal[] = [
+  { label: "React", detail: "427 postings", icon: "react" },
+  { label: "AWS", detail: "386 postings", icon: "aws" },
+  { label: "TypeScript", detail: "68% with React" },
+];
+
+export function OverviewHeroSection({
+  totalJobs = "1,284",
+  signals = fallbackSignals,
+}: OverviewHeroSectionProps) {
   return (
     <section className="overview-section">
       <div className="mx-auto grid w-full max-w-7xl grid-cols-[0.9fr_1.1fr] items-center gap-8 px-5 py-8 sm:px-8 lg:gap-12 lg:px-10 max-lg:grid-cols-1">
@@ -24,14 +44,22 @@ export function OverviewHeroSection() {
           <div className="relative z-30 mx-auto w-full max-w-2xl">
             <GlobalEntitySearch />
           </div>
-          <HeroSignalVisual />
+          <HeroSignalVisual totalJobs={totalJobs} signals={signals} />
         </div>
       </div>
     </section>
   );
 }
 
-function HeroSignalVisual() {
+function HeroSignalVisual({
+  totalJobs,
+  signals,
+}: {
+  totalJobs: string;
+  signals: HeroSignal[];
+}) {
+  const [first, second, third] = normalizeSignals(signals);
+
   return (
     <div className="relative min-h-[420px] overflow-hidden rounded-[1.75rem] border border-border/70 bg-card/42 p-5 shadow-[var(--shadow-md)] backdrop-blur-xl xl:min-h-[500px]">
       <div
@@ -80,17 +108,22 @@ function HeroSignalVisual() {
           <div className="signal-pulse absolute size-64 rounded-full border border-primary/15 xl:size-72" />
           <div className="signal-pulse absolute size-80 rounded-full border border-primary/10 [animation-delay:900ms] xl:size-96" />
           <div className="grid text-center">
-            <span className="text-4xl font-semibold text-foreground xl:text-5xl">1,284</span>
+            <span className="text-4xl font-semibold text-foreground xl:text-5xl">{totalJobs}</span>
             <span className="mt-2 text-sm text-muted-foreground">postings analyzed</span>
           </div>
         </div>
 
-        <FloatingSignal className="left-8 top-12" label="React" detail="427 postings" icon="react" />
-        <FloatingSignal className="right-10 top-28" label="AWS" detail="386 postings" icon="aws" />
-        <FloatingSignal className="bottom-14 left-16" label="TypeScript" detail="68% with React" />
+        <FloatingSignal className="left-8 top-12" {...first} />
+        <FloatingSignal className="right-10 top-28" {...second} />
+        <FloatingSignal className="bottom-14 left-16" {...third} />
       </div>
     </div>
   );
+}
+
+function normalizeSignals(signals: HeroSignal[]) {
+  const normalized = [...signals, ...fallbackSignals].slice(0, 3);
+  return normalized as [HeroSignal, HeroSignal, HeroSignal];
 }
 
 function FloatingSignal({

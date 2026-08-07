@@ -20,6 +20,15 @@ export interface AdzunaJob {
 
   salary_min?: number;
   salary_max?: number;
+  salary_is_predicted?: string;
+
+  contract_time?: string;
+  contract_type?: string;
+
+  latitude?: number;
+  longitude?: number;
+
+  redirect_url?: string;
 
   
 }

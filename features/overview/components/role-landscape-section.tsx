@@ -1,8 +1,14 @@
 import { SectionIntro } from "./section-heading";
 import { roleSegments } from "../data/overview.data";
 
-export function RoleLandscapeSection() {
-  const total = roleSegments.reduce((sum, segment) => sum + segment.value, 0);
+type RoleLandscapeSectionProps = {
+  segments?: typeof roleSegments;
+};
+
+export function RoleLandscapeSection({
+  segments = roleSegments,
+}: RoleLandscapeSectionProps) {
+  const total = segments.reduce((sum, segment) => sum + segment.value, 0);
 
   return (
     <section className="overview-section">
@@ -13,9 +19,9 @@ export function RoleLandscapeSection() {
           description="Share of classified postings by role in one segmented view, so proportion reads at a glance."
           note="Segments represent classified posting share by title pattern."
         />
-        <div className="rounded-2xl border border-border/70 bg-card/58 p-5 shadow-[var(--shadow-sm)] backdrop-blur-xl sm:p-7">
+        <div className="rounded-2xl border border-border/80 bg-card/92 p-5 shadow-[var(--shadow-md)] sm:p-7">
           <div className="flex h-12 overflow-hidden rounded-xl bg-muted">
-            {roleSegments.map((segment) => (
+            {segments.map((segment) => (
               <span
                 key={segment.label}
                 className={segment.color}
@@ -25,7 +31,7 @@ export function RoleLandscapeSection() {
             ))}
           </div>
           <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2">
-            {roleSegments.map((segment) => (
+            {segments.map((segment) => (
               <span
                 key={segment.label}
                 className="inline-flex items-center gap-2 text-xs text-muted-foreground sm:text-sm"

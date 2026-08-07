@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
-import { Prisma } from "@/lib/generated/prisma";
-import { JobQuery } from "@/types/job";
+import { Prisma, Skill } from "@/lib/generated/prisma/client";
+import { JobQuery } from "@/types/jobs";
 
 export class JobRepository {
   async findBySourceAndExternalId(
@@ -16,23 +16,6 @@ export class JobRepository {
       },
     });
   }
-
-  async upsert(
-    job: Prisma.JobPostingCreateInput
-  ) {
-    return prisma.jobPosting.upsert({
-      where: {
-        source_externalId: {
-          source: job.source,
-          externalId: job.externalId,
-        },
-      },
-
-      update: job,
-      create: job,
-    });
-  }
-
 
   async upsert(job: Prisma.JobPostingCreateInput) {
     return prisma.jobPosting.upsert({
@@ -138,54 +121,55 @@ export class JobRepository {
   }
 
   async findAll(limit?: number) {
-  return prisma.jobPosting.findMany({
-    take: limit,
-    select: {
-      id: true,
-      title: true,
-      description: true,
-    },
-  });
-}
-
-async attachSkills(jobId: string, skills: Skill[]) {
-  if (skills.length === 0) return;
-
-  await prisma.jobPostingSkill.createMany({
-    data: skills.map((skill) => ({
-      jobPostingId: jobId,
-      skillId: skill.id,
-    })),
-    skipDuplicates: true,
-  });
-}
-async findByIds(ids: string[]) {
-  if (ids.length === 0) {
-    return [];
+    return prisma.jobPosting.findMany({
+      take: limit,
+      select: {
+        id: true,
+        title: true,
+        description: true,
+      },
+    });
   }
 
-  return prisma.jobPosting.findMany({
-    where: {
-      id: {
-        in: ids,
-      },
-    },
+  async attachSkills(jobId: string, skills: Skill[]) {
+    if (skills.length === 0) return;
 
-    select: {
-      id: true,
-      title: true,
-      description: true,
-    },
-  });
-}
+    await prisma.jobPostingSkill.createMany({
+      data: skills.map((skill) => ({
+        jobPostingId: jobId,
+        skillId: skill.id,
+      })),
+      skipDuplicates: true,
+    });
+  }
 
-async deleteOlderThan(cutoff: Date) {
-  return prisma.jobPosting.deleteMany({
-    where: {
-      postedAt: {
-        lt: cutoff,
+  async findByIds(ids: string[]) {
+    if (ids.length === 0) {
+      return [];
+    }
+
+    return prisma.jobPosting.findMany({
+      where: {
+        id: {
+          in: ids,
+        },
       },
-    },
-  });
-}
+
+      select: {
+        id: true,
+        title: true,
+        description: true,
+      },
+    });
+  }
+
+  async deleteOlderThan(cutoff: Date) {
+    return prisma.jobPosting.deleteMany({
+      where: {
+        postedAt: {
+          lt: cutoff,
+        },
+      },
+    });
+  }
 }

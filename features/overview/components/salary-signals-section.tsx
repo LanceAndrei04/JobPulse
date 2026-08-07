@@ -2,7 +2,13 @@ import Link from "next/link";
 import { SectionIntro } from "./section-heading";
 import { salarySignals } from "../data/overview.data";
 
-export function SalarySignalsSection() {
+type SalarySignalsSectionProps = {
+  items?: typeof salarySignals;
+};
+
+export function SalarySignalsSection({
+  items = salarySignals,
+}: SalarySignalsSectionProps) {
   return (
     <section className="overview-section">
       <div className="reveal-panel mx-auto grid w-full max-w-7xl grid-cols-[minmax(18rem,0.42fr)_minmax(0,0.58fr)] items-center gap-8 px-5 py-12 sm:px-8 lg:gap-12 lg:px-10 max-lg:grid-cols-1">
@@ -12,8 +18,8 @@ export function SalarySignalsSection() {
           description="Estimated average salary compared with the $138K dataset baseline."
           note="Dots use the $138K dataset average as the center line."
         />
-        <div className="min-w-0 overflow-hidden rounded-2xl border border-border/70 bg-card/58 p-4 shadow-[var(--shadow-sm)] backdrop-blur-xl sm:p-5">
-          {salarySignals.map((item) => (
+        <div className="min-w-0 overflow-hidden rounded-2xl border border-border/80 bg-card/92 p-4 shadow-[var(--shadow-md)] sm:p-5">
+          {items.map((item) => (
             <SalarySignal key={item.label} item={item} />
           ))}
         </div>

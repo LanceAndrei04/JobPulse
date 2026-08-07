@@ -1,26 +1,49 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { searchEntities } from "@/lib/market-analysis-data";
+import type { SearchEntityDto } from "@/types/intelligence";
 
 export function GlobalEntitySearch() {
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [results, setResults] = useState<SearchEntityDto[]>([]);
+  const blurTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const results = useMemo(() => {
-    const normalized = query.trim().toLowerCase();
+  useEffect(() => {
+    const controller = new AbortController();
+    const timeout = setTimeout(async () => {
+      try {
+        const params = new URLSearchParams({
+          q: query,
+          limit: "6",
+        });
+        const response = await fetch(`/api/search?${params}`, {
+          signal: controller.signal,
+        });
 
-    if (!normalized) {
-      return searchEntities.slice(0, 6);
-    }
+        if (!response.ok) {
+          setResults([]);
+          return;
+        }
 
-    return searchEntities
-      .filter((entity) => entity.name.toLowerCase().includes(normalized))
-      .slice(0, 6);
+        const payload = (await response.json()) as { data: SearchEntityDto[] };
+        setResults(payload.data);
+      } catch (error) {
+        if (!controller.signal.aborted) {
+          console.error("Search failed:", error);
+          setResults([]);
+        }
+      }
+    }, 140);
+
+    return () => {
+      controller.abort();
+      clearTimeout(timeout);
+    };
   }, [query]);
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
@@ -55,8 +78,16 @@ export function GlobalEntitySearch() {
       aria-controls="entity-search-results"
       aria-expanded={isOpen}
       aria-haspopup="listbox"
+      onBlur={() => {
+        blurTimer.current = setTimeout(() => setIsOpen(false), 120);
+      }}
+      onFocus={() => {
+        if (blurTimer.current) {
+          clearTimeout(blurTimer.current);
+        }
+      }}
     >
-      <div className="group flex h-14 items-center gap-3 rounded-xl border border-border bg-card px-4 shadow-[var(--shadow-sm)] transition-all focus-within:border-primary/70 focus-within:ring-3 focus-within:ring-ring/20 hover:border-primary/45">
+      <div className="group flex h-14 items-center gap-3 rounded-xl bg-card px-4 shadow-[var(--shadow-sm)] transition-all focus-within:ring-3 focus-within:ring-ring/20 hover:bg-card/90">
         <Search className="size-5 text-muted-foreground transition-colors group-focus-within:text-primary" aria-hidden="true" />
         <input
           aria-label="Search a skill or developer role"
@@ -96,6 +127,7 @@ export function GlobalEntitySearch() {
                   : "hover:bg-muted/70"
               )}
               onMouseEnter={() => setActiveIndex(index)}
+              onClick={() => setIsOpen(false)}
             >
               <span className="flex min-w-0 items-center gap-2">
                 <span className="truncate text-sm font-semibold text-foreground">{result.name}</span>

@@ -1,5 +1,5 @@
 import { JobRepository } from "@/repositories/job.repository";
-import { JobQuery } from "@/types/job";
+import { JobQuery } from "@/types/jobs";
 
 export class JobService {
   private repository = new JobRepository();

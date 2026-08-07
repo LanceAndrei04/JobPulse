@@ -1,4 +1,6 @@
-export function mapAdzunaJob(job: any) {
+import type { AdzunaJob } from "@/types/adzuna";
+
+export function mapAdzunaJob(job: AdzunaJob) {
   return {
     externalId: job.id,
     source: "Adzuna",
