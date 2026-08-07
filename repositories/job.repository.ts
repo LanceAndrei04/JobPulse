@@ -117,13 +117,13 @@ export class JobRepository {
   });
 }
 
-async attachSkills(jobId: string, skillIds: string[]) {
-  if (skillIds.length === 0) return;
+async attachSkills(jobId: string, skills: Skill[]) {
+  if (skills.length === 0) return;
 
   await prisma.jobPostingSkill.createMany({
-    data: skillIds.map((skillId) => ({
+    data: skills.map((skill) => ({
       jobPostingId: jobId,
-      skillId,
+      skillId: skill.id,
     })),
     skipDuplicates: true,
   });

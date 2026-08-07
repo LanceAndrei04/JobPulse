@@ -1,11 +1,17 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { SkillExtractionService } from "@/services/skill-extraction.service";
 
-export async function POST() {
+export async function POST(request: NextRequest) {
   try {
+    const { searchParams } = new URL(request.url);
+
+    const limit = searchParams.get("limit")
+      ? Number(searchParams.get("limit"))
+      : undefined;
+
     const service = new SkillExtractionService();
 
-    const result = await service.extractAll();
+    const result = await service.extractAll(limit);
 
     return NextResponse.json(result);
   } catch (error) {
