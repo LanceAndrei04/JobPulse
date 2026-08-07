@@ -16,7 +16,7 @@ export function MarketSnapshotSection({
         <SectionHeading
           id="market-snapshot"
           title="Market Snapshot"
-          description="Dataset-scale context appears first, followed by short signals before the raw section views."
+          description="A quick read on dataset size, company coverage, salary baseline, and tracked skills."
         />
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {metrics.map((metric) => (

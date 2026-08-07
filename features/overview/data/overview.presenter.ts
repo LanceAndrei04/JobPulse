@@ -68,7 +68,7 @@ export function buildOverviewData(data: OverviewAnalyticsDto | null) {
           ...metric,
           value: data.overview.averageSalary ? formatSalary(data.overview.averageSalary) : "N/A",
           fill: getFill(data.overview.jobsWithSalary, data.overview.totalJobs),
-          delta: `${formatCount(data.overview.jobsWithSalary)} salary samples`,
+          delta: `${formatCount(data.overview.jobsWithSalary)} salary records`,
         };
       }
 
@@ -82,21 +82,21 @@ export function buildOverviewData(data: OverviewAnalyticsDto | null) {
       data.topSkills.length >= 2
         ? {
             icon: TrendingUp,
-            title: `${data.topSkills[0].name} and ${data.topSkills[1].name} lead detected technology patterns.`,
+            title: `${data.topSkills[0].name} and ${data.topSkills[1].name} lead current technology demand.`,
             stat: `${getPercent(data.topSkills[0].jobCount, totalJobs)} and ${getPercent(data.topSkills[1].jobCount, totalJobs)}`,
           }
         : null,
       data.topRoles.length >= 2
         ? {
             icon: Network,
-            title: `${data.topRoles[0].role} and ${data.topRoles[1].role} dominate classified postings.`,
+            title: `${data.topRoles[0].role} and ${data.topRoles[1].role} make up the largest role share.`,
             stat: `${getPercent(data.topRoles[0].jobCount + data.topRoles[1].jobCount, totalJobs)} combined`,
           }
         : null,
       data.topSkills[0]
         ? {
             icon: Link2,
-            title: `${data.topSkills[0].name} has the strongest detected skill signal in the current dataset.`,
+            title: `${data.topSkills[0].name} is the strongest skill signal in the current dataset.`,
             stat: `${formatCount(data.topSkills[0].jobCount)} postings`,
           }
         : null,
@@ -118,9 +118,8 @@ export function buildOverviewData(data: OverviewAnalyticsDto | null) {
     salarySignals: data.highestPayingSkills.slice(0, 3).map((skill) => ({
       label: skill.name,
       salary: formatSalary(skill.averageSalary),
-      observations: `${formatCount(skill.jobsWithSalary)} obs.`,
-      delta: data.overview.averageSalary
-        ? Math.round(((skill.averageSalary - data.overview.averageSalary) / data.overview.averageSalary) * 100)
+      observations: `${formatCount(skill.jobsWithSalary)} observations`,
+      delta: data.overview.averageSalary        ? Math.round(((skill.averageSalary - data.overview.averageSalary) / data.overview.averageSalary) * 100)
         : 0,
       href: `/skill/${slugify(skill.name)}`,
     })),
@@ -131,7 +130,7 @@ export function buildOverviewData(data: OverviewAnalyticsDto | null) {
       .map((role) => ({
         label: role.role,
         salary: formatSalary(role.averageSalary ?? 0),
-        observations: `${formatCount(role.jobsWithSalary)} obs.`,
+        observations: `${formatCount(role.jobsWithSalary)} observations`,
         delta: data.overview.averageSalary
           ? Math.round(
               (((role.averageSalary ?? 0) - data.overview.averageSalary) /

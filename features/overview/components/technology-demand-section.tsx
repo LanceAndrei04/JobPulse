@@ -15,8 +15,8 @@ export function TechnologyDemandSection({
         <SectionIntro
           id="technology-demand"
           title="Technology Demand"
-          description="Most frequently detected skills in analyzed postings, now with recognizable technology marks."
-          note="Bars show detected presence within the current sample, not total market share."
+          description="The technologies appearing most often across developer job postings."
+          note="Percentages show share within this dataset, so they are best read as relative demand."
         />
         <div className="min-w-0 overflow-hidden rounded-2xl border border-border/80 bg-card/90 p-4 shadow-[var(--shadow-md)] sm:p-5">
           {items.map((item) => (
@@ -49,7 +49,7 @@ function TechnologyRow({ item }: { item: (typeof technologyDemand)[number] }) {
             {item.label}
           </span>
           <span className="mt-1 block text-xs leading-4 text-muted-foreground">
-            {item.count} detected postings
+            {item.count} postings
           </span>
         </span>
       </span>

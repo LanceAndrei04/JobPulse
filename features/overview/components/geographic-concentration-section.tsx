@@ -1,4 +1,3 @@
-import { MapPin } from "lucide-react";
 import { SectionIntro } from "./section-heading";
 import { geographicSignals } from "../data/overview.data";
 
@@ -16,8 +15,8 @@ export function GeographicConcentrationSection({
           <SectionIntro
             id="geographic-concentration"
             title="Top States"
-            description="States with the highest share of collected postings in the current dataset."
-            note="Location share reflects detected posting locations in this sample."
+            description="Where developer job postings are most concentrated by state."
+            note="State share is based on available posting locations in the dataset."
           />
         </div>
         <div className="min-w-0 overflow-hidden rounded-2xl border border-border/85 bg-card p-4 shadow-[var(--shadow-md)] sm:p-5">

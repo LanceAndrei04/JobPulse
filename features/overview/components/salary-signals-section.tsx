@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { SectionIntro } from "./section-heading";
+import { ContextNote, SectionHeading } from "./section-heading";
 import { salarySignals } from "../data/overview.data";
 
 type SalarySignalsSectionProps = {
@@ -16,13 +16,15 @@ export function SalarySignalsSection({
   return (
     <section className="overview-section">
       <div className="reveal-panel mx-auto flex w-full max-w-7xl flex-col gap-7 px-5 py-12 sm:px-8 lg:px-10">
-        <div className="max-w-3xl">
-          <SectionIntro
+        <div className="grid items-end gap-5 lg:grid-cols-[minmax(0,0.58fr)_minmax(18rem,0.42fr)]">
+          <SectionHeading
             id="salary-signals"
             title="Salary Signals"
             description={`Highest-paying skills and roles compared with the ${baseline} baseline.`}
-            note="The center line represents the current dataset average; markers show below or above that baseline."
           />
+          <ContextNote className="m-0 lg:justify-self-end">
+            The center line represents the current dataset average; markers show below or above that baseline.
+          </ContextNote>
         </div>
         <div className="grid min-w-0 gap-4 lg:grid-cols-2">
           <SalarySignalCard
@@ -32,7 +34,7 @@ export function SalarySignalsSection({
           />
           <SalarySignalCard
             title="Top Paying Roles"
-            description="Role groups ranked by detected average salary."
+            description="Role groups ranked by average salary."
             items={roles}
             emptyLabel="Not enough role salary data yet."
           />

@@ -90,10 +90,10 @@ export function GlobalEntitySearch() {
       <div className="group flex h-14 items-center gap-3 rounded-xl bg-card px-4 shadow-[var(--shadow-sm)] transition-all focus-within:ring-3 focus-within:ring-ring/20 hover:bg-card/90">
         <Search className="size-5 text-muted-foreground transition-colors group-focus-within:text-primary" aria-hidden="true" />
         <input
-          aria-label="Search a skill or developer role"
+          aria-label="Search a skill or role"
           aria-autocomplete="list"
           className="h-12 flex-1 bg-transparent text-base text-foreground outline-none placeholder:text-muted-foreground md:text-[15px]"
-          placeholder="Search a skill or developer role..."
+          placeholder="Search a skill or role..."
           value={query}
           onChange={(event) => {
             setQuery(event.target.value);

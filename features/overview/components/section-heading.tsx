@@ -36,9 +36,17 @@ export function SectionIntro({ id, title, description, note }: SectionIntroProps
   );
 }
 
-export function ContextNote({ children }: { children: string }) {
+export function ContextNote({
+  children,
+  className = "mt-5",
+}: {
+  children: string;
+  className?: string;
+}) {
   return (
-    <p className="mt-5 max-w-xl rounded-xl border border-border/70 bg-background/30 p-4 text-sm leading-6 text-foreground/72 shadow-[var(--shadow-xs)] backdrop-blur">
+    <p
+      className={`${className} max-w-xl rounded-xl border border-border/70 bg-background/30 p-4 text-sm leading-6 text-foreground/72 shadow-[var(--shadow-xs)] backdrop-blur`}
+    >
       {children}
     </p>
   );
