@@ -1,5 +1,6 @@
 import { Activity, Building2, CircleDollarSign, Database, Layers3 } from "lucide-react";
 import { GlobalEntitySearch } from "@/components/global-entity-search";
+import { RankedMetricRow } from "@/components/ranked-metric-row";
 
 const datasetContext = [
   "US developer postings",
@@ -31,6 +32,49 @@ const snapshotMetrics = [
     value: "242",
     detail: "Normalized developer signals",
     icon: Layers3,
+  },
+];
+
+const technologyDemand = [
+  {
+    label: "React",
+    value: "~18%",
+    detail: "427 detected postings",
+    context: "#2 tracked frontend technology",
+    percentage: 100,
+    href: "/skill/react",
+  },
+  {
+    label: "AWS",
+    value: "~16%",
+    detail: "386 detected postings",
+    context: "Strong cloud infrastructure presence",
+    percentage: 90,
+    href: "/skill/aws",
+  },
+  {
+    label: "Python",
+    value: "~14%",
+    detail: "342 detected postings",
+    context: "Detected across backend and data roles",
+    percentage: 80,
+    href: "/skill/python",
+  },
+  {
+    label: "TypeScript",
+    value: "~13%",
+    detail: "311 detected postings",
+    context: "Frequently appears alongside React",
+    percentage: 73,
+    href: "/skill/typescript",
+  },
+  {
+    label: "Java",
+    value: "~12%",
+    detail: "296 detected postings",
+    context: "Common in backend and enterprise roles",
+    percentage: 69,
+    href: "/skill/java",
   },
 ];
 
@@ -105,6 +149,38 @@ export default function Home() {
                 </div>
                 <p className="mt-4 text-sm leading-6 text-muted-foreground">{metric.detail}</p>
               </article>
+            ))}
+          </div>
+        </section>
+
+        <section
+          aria-labelledby="technology-demand"
+          className="grid gap-8 border-t border-border pt-12 lg:grid-cols-[0.74fr_1.26fr]"
+        >
+          <div>
+            <h2 id="technology-demand" className="text-xl font-semibold text-foreground">
+              Technology Demand
+            </h2>
+            <p className="mt-3 max-w-md text-sm leading-6 text-muted-foreground">
+              Technologies most frequently detected in analyzed postings from the current dataset.
+            </p>
+            <p className="mt-6 max-w-md text-sm leading-6 text-muted-foreground">
+              Percentages are estimated presence among collected developer postings, not absolute market share.
+            </p>
+          </div>
+
+          <div className="grid gap-3">
+            {technologyDemand.map((technology, index) => (
+              <RankedMetricRow
+                key={technology.label}
+                rank={index + 1}
+                label={technology.label}
+                value={technology.value}
+                detail={technology.detail}
+                context={technology.context}
+                percentage={technology.percentage}
+                href={technology.href}
+              />
             ))}
           </div>
         </section>
