@@ -7,10 +7,17 @@ export async function POST(request: Request) {
 
     const pages =
       Number(searchParams.get("pages")) || 3;
+    const keywordLimit =
+      Number(searchParams.get("keywordLimit")) || undefined;
+    const keywordOffset =
+      Number(searchParams.get("keywordOffset")) || undefined;
 
     const service = new JobIngestionService();
 
-    const result = await service.run(pages);
+    const result = await service.run(pages, {
+      keywordLimit,
+      keywordOffset,
+    });
 
     return NextResponse.json({
       success: true,

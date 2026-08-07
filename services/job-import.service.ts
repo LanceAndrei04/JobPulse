@@ -4,6 +4,11 @@ import { fetchJobs } from "@/lib/adzuna";
 import { mapAdzunaJob } from "@/lib/mappers/adzuna.mapper";
 import { JobRepository } from "@/repositories/job.repository";
 
+type JobImportOptions = {
+  keywordLimit?: number;
+  keywordOffset?: number;
+};
+
 export class JobImportService {
   private repository = new JobRepository();
 
@@ -14,7 +19,7 @@ export class JobImportService {
     return (a ?? null) === (b ?? null);
   }
 
-  async import(maxPages = 3) {
+  async import(maxPages = 3, options: JobImportOptions = {}) {
     let fetched = 0;
     let recent = 0;
 
@@ -31,7 +36,12 @@ export class JobImportService {
         jobDataConfig.importLookbackDays
     );
 
-    for (const search of techKeywords) {
+    const keywords = selectKeywords(
+      options.keywordLimit,
+      options.keywordOffset
+    );
+
+    for (const search of keywords) {
       for (
         let page = 1;
         page <= maxPages;
@@ -165,7 +175,14 @@ export class JobImportService {
     }
 
     return {
-      keywords: techKeywords.length,
+      keywords: keywords.length,
+      totalKeywords: techKeywords.length,
+      keywordOffset: normalizeOffset(
+        options.keywordOffset ?? 0,
+        techKeywords.length
+      ),
+      estimatedApiCalls:
+        keywords.length * maxPages,
 
       fetched,
       recent,
@@ -179,4 +196,39 @@ export class JobImportService {
       ],
     };
   }
+}
+
+function selectKeywords(
+  limit = techKeywords.length,
+  offset = 0
+) {
+  if (techKeywords.length === 0) {
+    return [];
+  }
+
+  const safeLimit = Math.min(
+    Math.max(Math.floor(limit), 1),
+    techKeywords.length
+  );
+  const start = normalizeOffset(
+    offset,
+    techKeywords.length
+  );
+
+  return Array.from(
+    { length: safeLimit },
+    (_, index) =>
+      techKeywords[
+        (start + index) %
+          techKeywords.length
+      ]
+  );
+}
+
+function normalizeOffset(
+  offset: number,
+  length: number
+) {
+  if (length <= 0) return 0;
+  return ((Math.floor(offset) % length) + length) % length;
 }
