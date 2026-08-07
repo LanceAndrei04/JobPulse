@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "discover:skills": "tsx scripts/discover-skills.ts",
-    "build": "next build",
+    "build": "prisma generate && next build",
+    "db:migrate:deploy": "prisma migrate deploy",
+    "db:generate": "prisma generate",
     "start": "next start",
     "lint": "eslint"
   },
