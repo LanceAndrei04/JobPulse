@@ -119,7 +119,12 @@ export function buildOverviewData(data: OverviewAnalyticsDto | null) {
       label: skill.name,
       salary: formatSalary(skill.averageSalary),
       observations: `${formatCount(skill.jobsWithSalary)} observations`,
-      delta: data.overview.averageSalary        ? Math.round(((skill.averageSalary - data.overview.averageSalary) / data.overview.averageSalary) * 100)
+      delta: data.overview.averageSalary
+        ? Math.round(
+            ((skill.averageSalary - data.overview.averageSalary) /
+              data.overview.averageSalary) *
+              100
+          )
         : 0,
       href: `/skill/${slugify(skill.name)}`,
     })),

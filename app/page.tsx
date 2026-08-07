@@ -1,4 +1,3 @@
-import { headers } from "next/headers";
 import { GeographicConcentrationSection } from "@/features/overview/components/geographic-concentration-section";
 import { MarketSnapshotSection } from "@/features/overview/components/market-snapshot-section";
 import { OverviewBackground } from "@/features/overview/components/overview-background";
@@ -8,7 +7,6 @@ import { SalarySignalsSection } from "@/features/overview/components/salary-sign
 import { TechnologyDemandSection } from "@/features/overview/components/technology-demand-section";
 import { buildOverviewData } from "@/features/overview/data/overview.presenter";
 import { AnalyticsService } from "@/services/analytics.service";
-import type { OverviewAnalyticsDto } from "@/types/intelligence";
 
 export const dynamic = "force-dynamic";
 
@@ -42,25 +40,8 @@ export default async function Home() {
 
 async function getOverviewAnalytics() {
   try {
-    const headerStore = await headers();
-    const host = headerStore.get("host");
-
-    if (!host) {
-      const service = new AnalyticsService();
-      return await service.getDashboard();
-    }
-
-    const protocol = host.includes("localhost") ? "http" : "https";
-    const response = await fetch(`${protocol}://${host}/api/analytics/dashboard`, {
-      cache: "no-store",
-    });
-
-    if (!response.ok) {
-      throw new Error(`Dashboard API returned ${response.status}`);
-    }
-
-    const payload = (await response.json()) as { data: OverviewAnalyticsDto };
-    return payload.data;
+    const service = new AnalyticsService();
+    return await service.getDashboard();
   } catch (error) {
     console.error("Overview analytics fallback:", error);
     return null;
