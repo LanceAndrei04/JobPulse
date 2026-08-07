@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { Prisma, Skill } from "@/lib/generated/prisma/client";
+import { Prisma, Skill } from "@prisma/client";
 import { JobQuery } from "@/types/jobs";
 
 export class JobRepository {

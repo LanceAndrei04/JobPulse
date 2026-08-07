@@ -1,4 +1,4 @@
-import { SkillCategory } from "@/lib/generated/prisma/client";
+import { SkillCategory } from "@prisma/client";
 
 type SkillDefinition = {
   name: string;

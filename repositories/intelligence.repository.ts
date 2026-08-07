@@ -1,4 +1,4 @@
-import { Prisma } from "@/lib/generated/prisma/client";
+import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { roleCaseSql } from "@/lib/role-classifier";
 

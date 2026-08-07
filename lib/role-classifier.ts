@@ -1,4 +1,4 @@
-import { Prisma } from "@/lib/generated/prisma/client";
+import { Prisma } from "@prisma/client";
 
 export const roleNameToSlug = {
   "Software Engineer": "software-engineer",

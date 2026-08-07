@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { Prisma } from "@/lib/generated/prisma/client";
+import { Prisma } from "@prisma/client";
 
 export class SkillRepository {
   async upsertMany(skills: Prisma.SkillCreateManyInput[]) {
