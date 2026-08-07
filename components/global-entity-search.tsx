@@ -73,16 +73,16 @@ export function GlobalEntitySearch() {
 
   return (
     <div
-      className="relative w-full max-w-[470px]"
+      className="relative w-full max-w-2xl"
       aria-controls="entity-search-results"
       aria-expanded={isOpen}
     >
-      <div className="group flex h-9 items-center gap-2 rounded-md border border-border bg-card px-3 shadow-[var(--shadow-xs)] transition-all focus-within:border-primary/70 focus-within:ring-3 focus-within:ring-ring/20 hover:border-primary/45">
-        <Search className="size-3.5 text-muted-foreground transition-colors group-focus-within:text-primary" aria-hidden="true" />
+      <div className="group flex h-14 items-center gap-3 rounded-xl border border-border bg-card px-4 shadow-[var(--shadow-sm)] transition-all focus-within:border-primary/70 focus-within:ring-3 focus-within:ring-ring/20 hover:border-primary/45">
+        <Search className="size-5 text-muted-foreground transition-colors group-focus-within:text-primary" aria-hidden="true" />
         <input
           aria-label="Search a skill or developer role"
           aria-autocomplete="list"
-          className="h-8 flex-1 bg-transparent text-xs text-foreground outline-none placeholder:text-muted-foreground"
+          className="h-12 flex-1 bg-transparent text-base text-foreground outline-none placeholder:text-muted-foreground md:text-[15px]"
           placeholder="Search a skill or developer role..."
           value={query}
           onChange={(event) => {
@@ -99,7 +99,7 @@ export function GlobalEntitySearch() {
         id="entity-search-results"
         role="listbox"
         className={cn(
-          "absolute left-0 right-0 top-[calc(100%+0.4rem)] z-30 overflow-hidden rounded-lg border border-border bg-card p-1.5 shadow-[var(--shadow-md)] transition-all",
+          "absolute left-0 right-0 top-[calc(100%+0.55rem)] z-30 overflow-hidden rounded-xl border border-border bg-card p-2 shadow-[var(--shadow-md)] transition-all",
           isOpen ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-1 opacity-0"
         )}
       >
@@ -111,22 +111,22 @@ export function GlobalEntitySearch() {
               role="option"
               aria-selected={activeIndex === index}
               className={cn(
-                "group flex items-center justify-between rounded-md px-2.5 py-2 outline-none transition-colors focus-visible:ring-3 focus-visible:ring-ring/35",
+                "group flex items-center justify-between rounded-lg px-3 py-3 outline-none transition-colors focus-visible:ring-3 focus-visible:ring-ring/35",
                 activeIndex === index ? "bg-accent text-accent-foreground" : "hover:bg-muted"
               )}
               onMouseEnter={() => setActiveIndex(index)}
             >
               <span>
-                <span className="block text-xs font-semibold text-foreground">{result.name}</span>
-                <span className="mt-0.5 block text-[11px] text-muted-foreground">
+                <span className="block text-sm font-semibold text-foreground">{result.name}</span>
+                <span className="mt-1 block text-xs text-muted-foreground">
                   {result.type} - {result.detail}
                 </span>
               </span>
-              <ArrowRight className="size-3.5 text-muted-foreground opacity-0 transition-all group-hover:translate-x-0.5 group-hover:opacity-100" aria-hidden="true" />
+              <ArrowRight className="size-4 text-muted-foreground opacity-0 transition-all group-hover:translate-x-0.5 group-hover:opacity-100" aria-hidden="true" />
             </Link>
           ))
         ) : (
-          <div className="px-2.5 py-3 text-xs text-muted-foreground">
+          <div className="px-3 py-4 text-sm text-muted-foreground">
             No matching skill or role in the current MVP set.
           </div>
         )}

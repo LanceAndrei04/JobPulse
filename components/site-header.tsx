@@ -15,7 +15,7 @@ export function SiteHeader() {
           className="group flex items-center gap-2 rounded-md font-heading text-sm font-semibold tracking-normal text-foreground outline-none transition-colors hover:text-primary focus-visible:ring-3 focus-visible:ring-ring/45"
         >
           <Activity className="size-3.5 text-primary" aria-hidden="true" />
-          <span>Developer market signals</span>
+          <span>JobPulse</span>
         </Link>
 
         <nav aria-label="Primary navigation" className="flex items-center gap-1">
