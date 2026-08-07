@@ -10,7 +10,6 @@ import {
   Link2,
   MapPin,
   Network,
-  Search,
   TrendingUp,
 } from "lucide-react";
 import { GlobalEntitySearch } from "@/components/global-entity-search";
