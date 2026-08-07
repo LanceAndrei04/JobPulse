@@ -78,6 +78,49 @@ const technologyDemand = [
   },
 ];
 
+const roleLandscape = [
+  {
+    label: "Software Engineer",
+    value: "~18%",
+    detail: "232 classified postings",
+    context: "Broad role label across multiple technology patterns",
+    percentage: 100,
+    href: "/role/software-engineer",
+  },
+  {
+    label: "Backend Developer",
+    value: "~15%",
+    detail: "194 classified postings",
+    context: "Frequently associated with Python, Java, AWS, and databases",
+    percentage: 83,
+    href: "/role/backend-developer",
+  },
+  {
+    label: "Frontend Developer",
+    value: "~12%",
+    detail: "154 classified postings",
+    context: "Strong React and TypeScript association",
+    percentage: 67,
+    href: "/role/frontend-developer",
+  },
+  {
+    label: "Full Stack Developer",
+    value: "~10%",
+    detail: "128 classified postings",
+    context: "Often spans React, Node.js, and cloud tooling",
+    percentage: 56,
+    href: "/role/full-stack-developer",
+  },
+  {
+    label: "DevOps Engineer",
+    value: "~8%",
+    detail: "103 classified postings",
+    context: "Cloud, container, and infrastructure signals appear often",
+    percentage: 44,
+    href: "/role/devops-engineer",
+  },
+];
+
 export default function Home() {
   return (
     <main className="flex-1">
@@ -88,7 +131,7 @@ export default function Home() {
               <span className="flex size-9 items-center justify-center rounded-md border border-border bg-card shadow-[var(--shadow-xs)]">
                 <Activity className="size-4 text-primary" aria-hidden="true" />
               </span>
-              <span>Developer Market Intelligence</span>
+              <span>Developer Market Signals</span>
             </div>
 
             <h1 className="max-w-3xl text-[2.5rem] font-semibold leading-[1.08] tracking-normal text-foreground sm:text-[3.25rem]">
@@ -180,6 +223,38 @@ export default function Home() {
                 context={technology.context}
                 percentage={technology.percentage}
                 href={technology.href}
+              />
+            ))}
+          </div>
+        </section>
+
+        <section
+          aria-labelledby="role-landscape"
+          className="grid gap-8 border-t border-border pt-12 lg:grid-cols-[0.74fr_1.26fr]"
+        >
+          <div>
+            <h2 id="role-landscape" className="text-xl font-semibold text-foreground">
+              Role Landscape
+            </h2>
+            <p className="mt-3 max-w-md text-sm leading-6 text-muted-foreground">
+              How developer role labels appear distributed within collected postings.
+            </p>
+            <p className="mt-6 max-w-md text-sm leading-6 text-muted-foreground">
+              Role labels are classified from posting titles, so they should be read as observed patterns rather than exact hiring categories.
+            </p>
+          </div>
+
+          <div className="grid gap-3">
+            {roleLandscape.map((role, index) => (
+              <RankedMetricRow
+                key={role.label}
+                rank={index + 1}
+                label={role.label}
+                value={role.value}
+                detail={role.detail}
+                context={role.context}
+                percentage={role.percentage}
+                href={role.href}
               />
             ))}
           </div>

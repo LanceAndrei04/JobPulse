@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "JobPulse | Developer Market Intelligence",
+  title: "JobPulse | Developer Market Signals",
   description:
     "Explore detected developer skill, role, salary, and location patterns in the current JobPulse dataset.",
 };
