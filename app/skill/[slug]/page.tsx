@@ -1,14 +1,14 @@
 import { notFound } from "next/navigation";
-import { EntityAnalysisPage } from "@/components/entity-analysis-page";
-import { getSkillAnalysis } from "@/lib/market-analysis-data";
+import { SkillIntelligencePage } from "@/features/skill-intelligence/components/skill-intelligence-page";
+import { getSkillIntelligenceMock } from "@/features/skill-intelligence/mocks/skill-intelligence.mock";
 
 export default async function SkillPage({ params }: PageProps<"/skill/[slug]">) {
   const { slug } = await params;
-  const analysis = getSkillAnalysis(slug);
+  const data = getSkillIntelligenceMock(slug);
 
-  if (!analysis) {
+  if (!data) {
     notFound();
   }
 
-  return <EntityAnalysisPage analysis={analysis} />;
+  return <SkillIntelligencePage data={data} />;
 }

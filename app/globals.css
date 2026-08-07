@@ -255,6 +255,17 @@
     }
   }
 
+  @keyframes skill-bar-grow {
+    from {
+      transform: scaleX(0);
+      transform-origin: left;
+    }
+    to {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .reveal-panel,
     .fade-up,
