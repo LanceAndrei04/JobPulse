@@ -12,26 +12,25 @@ export class SkillExtractionService {
 
     let matched = 0;
 
-   for (const [index, job] of jobs.entries()) {
-    const titleSkills = this.extract(job.title, skills);
-    const descriptionSkills = this.extract(job.description, skills);
+    for (const job of jobs) {
+      const titleSkills = this.extract(job.title, skills);
+      const descriptionSkills = this.extract(job.description, skills);
 
-    // Merge without duplicates
-    const extracted = [
-      ...new Map(
-        [...titleSkills, ...descriptionSkills].map(skill => [skill.id, skill])
-      ).values(),
-    ];
+      const extracted = [
+        ...new Map(
+          [...titleSkills, ...descriptionSkills].map((skill) => [
+            skill.id,
+            skill,
+          ])
+        ).values(),
+      ];
 
-    console.log(
-  `Processed ${index + 1}/${jobs.length} - ${job.title} - ${extracted.length} skills`
-);
-        if (extracted.length > 0) {
-          await this.jobRepository.attachSkills(job.id, extracted);
-        }
+      if (extracted.length > 0) {
+        await this.jobRepository.attachSkills(job.id, extracted);
+      }
 
-    matched += extracted.length;
-  }
+      matched += extracted.length;
+    }
 
     return {
       jobsProcessed: jobs.length,

@@ -1,13 +1,12 @@
 import { notFound } from "next/navigation";
 import { RoleIntelligencePage } from "@/features/role-intelligence/components/role-intelligence-page";
-import { getRoleIntelligenceMock } from "@/features/role-intelligence/mocks/role-intelligence.mock";
 import { IntelligenceService } from "@/services/intelligence.service";
 
 export const dynamic = "force-dynamic";
 
 export default async function RolePage({ params }: PageProps<"/role/[slug]">) {
   const { slug } = await params;
-  const analysis = (await getLiveRoleIntelligence(slug)) ?? getRoleIntelligenceMock(slug);
+  const analysis = await getLiveRoleIntelligence(slug);
 
   if (!analysis) {
     notFound();
