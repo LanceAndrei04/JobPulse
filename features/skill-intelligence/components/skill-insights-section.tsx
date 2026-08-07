@@ -1,4 +1,5 @@
 import { SectionHeader } from "./primitives/section-header";
+import { InsufficientDataState } from "./primitives/insufficient-data-state";
 import { formatCount, formatPercent, formatSalary } from "../utils/format";
 import type { SkillInsight } from "../types/skill-intelligence.types";
 
@@ -8,7 +9,16 @@ type SkillInsightsSectionProps = {
 
 export function SkillInsightsSection({ insights }: SkillInsightsSectionProps) {
   if (insights.length === 0) {
-    return null;
+    return (
+      <section id="insights">
+        <SectionHeader
+          eyebrow="06"
+          title="What the Data Suggests"
+          question="Supported interpretations generated from the structured sample."
+        />
+        <InsufficientDataState description="There are no supported interpretations yet. More postings are needed before this becomes reliable." />
+      </section>
+    );
   }
 
   return (

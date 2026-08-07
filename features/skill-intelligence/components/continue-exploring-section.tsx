@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { SectionHeader } from "./primitives/section-header";
+import { InsufficientDataState } from "./primitives/insufficient-data-state";
 import { getRoleHref, getSkillHref } from "../utils/entity-routes";
 import type { ExploreEntity } from "../types/skill-intelligence.types";
 
@@ -10,7 +11,16 @@ type ContinueExploringSectionProps = {
 
 export function ContinueExploringSection({ items }: ContinueExploringSectionProps) {
   if (items.length === 0) {
-    return null;
+    return (
+      <section id="explore">
+        <SectionHeader
+          eyebrow="07"
+          title="Continue Exploring"
+          question="Follow the strongest related skills and roles from this analysis."
+        />
+        <InsufficientDataState description="Related entities will appear once this skill has stronger role or co-skill signals." />
+      </section>
+    );
   }
 
   return (

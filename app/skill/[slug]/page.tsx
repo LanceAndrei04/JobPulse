@@ -1,5 +1,5 @@
-import { notFound } from "next/navigation";
 import { SkillIntelligencePage } from "@/features/skill-intelligence/components/skill-intelligence-page";
+import { SkillUnavailablePage } from "@/features/skill-intelligence/components/skill-unavailable-page";
 import { getSkillIntelligenceMock } from "@/features/skill-intelligence/mocks/skill-intelligence.mock";
 import { IntelligenceService } from "@/services/intelligence.service";
 
@@ -10,7 +10,7 @@ export default async function SkillPage({ params }: PageProps<"/skill/[slug]">) 
   const data = (await getLiveSkillIntelligence(slug)) ?? getSkillIntelligenceMock(slug);
 
   if (!data) {
-    notFound();
+    return <SkillUnavailablePage slug={slug} />;
   }
 
   return <SkillIntelligencePage data={data} />;

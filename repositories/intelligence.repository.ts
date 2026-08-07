@@ -293,6 +293,40 @@ export class IntelligenceRepository {
     });
   }
 
+  async getTopSearchSkills(limit = 3) {
+    const grouped = await prisma.jobPostingSkill.groupBy({
+      by: ["skillId"],
+      _count: {
+        skillId: true,
+      },
+      orderBy: {
+        _count: {
+          skillId: "desc",
+        },
+      },
+      take: limit,
+    });
+
+    const skillIds = grouped.map((item) => item.skillId);
+    const skills = await prisma.skill.findMany({
+      where: {
+        id: {
+          in: skillIds,
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+        normalizedName: true,
+      },
+    });
+    const skillMap = new Map(skills.map((skill) => [skill.id, skill]));
+
+    return grouped
+      .map((item) => skillMap.get(item.skillId))
+      .filter((skill) => skill !== undefined);
+  }
+
   rawRoleCase() {
     return Prisma.sql`${roleCaseSql}`;
   }

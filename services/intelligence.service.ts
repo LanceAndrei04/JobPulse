@@ -27,6 +27,28 @@ export class IntelligenceService {
 
   async search(query = "", limit = 8): Promise<SearchEntityDto[]> {
     const normalized = query.trim().toLowerCase();
+    if (!normalized) {
+      const [skills, rolePeers] = await Promise.all([
+        this.repository.getTopSearchSkills(3),
+        this.repository.getRolePeers(2),
+      ]);
+
+      return [
+        ...skills.map((skill) => ({
+          name: skill.name,
+          slug: slugify(skill.normalizedName),
+          type: "Skill" as const,
+          href: `/skill/${slugify(skill.normalizedName)}`,
+        })),
+        ...rolePeers.map((role) => ({
+          name: role.role,
+          slug: getRoleSlug(role.role),
+          type: "Role" as const,
+          href: `/role/${getRoleSlug(role.role)}`,
+        })),
+      ].slice(0, limit);
+    }
+
     const [skills, rolePeers] = await Promise.all([
       this.repository.getSearchSkills(query.trim(), 30),
       this.repository.getRolePeers(30),

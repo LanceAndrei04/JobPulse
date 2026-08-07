@@ -231,6 +231,14 @@
     animation-delay: 2.5s;
   }
 
+  .data-dot {
+    animation: data-dot 1.4s ease-in-out infinite;
+  }
+
+  .data-scan {
+    animation: data-scan 1.8s ease-in-out infinite;
+  }
+
   .overview-geometry {
     position: absolute;
     border: 1px solid rgba(148, 163, 184, 0.055);
@@ -361,6 +369,27 @@
     }
   }
 
+  @keyframes data-dot {
+    0%,
+    100% {
+      opacity: 0.34;
+      transform: translateY(0);
+    }
+    50% {
+      opacity: 1;
+      transform: translateY(-4px);
+    }
+  }
+
+  @keyframes data-scan {
+    from {
+      transform: translateX(-120%);
+    }
+    to {
+      transform: translateX(320%);
+    }
+  }
+
   @keyframes skill-bar-grow {
     from {
       transform: scaleX(0);
@@ -390,7 +419,9 @@
     .signal-pulse,
     .signal-drift,
     .overview-bokeh,
-    .overview-geometry {
+    .overview-geometry,
+    .data-dot,
+    .data-scan {
       animation: none !important;
     }
   }

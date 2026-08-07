@@ -1,5 +1,6 @@
 import { RankedBarRow } from "./primitives/ranked-bar-row";
 import { SectionHeader } from "./primitives/section-header";
+import { InsufficientDataState } from "./primitives/insufficient-data-state";
 import { formatCount, formatPercent } from "../utils/format";
 import { getRoleHref } from "../utils/entity-routes";
 import type {
@@ -19,7 +20,16 @@ export function RoleAlignmentSection({
   insight,
 }: RoleAlignmentSectionProps) {
   if (roles.length === 0) {
-    return null;
+    return (
+      <section id="roles">
+        <SectionHeader
+          eyebrow="02"
+          title={`Where ${skillName} Appears`}
+          question="Which classified roles contain this skill most frequently?"
+        />
+        <InsufficientDataState description="No role pattern has enough matching postings yet for this skill." />
+      </section>
+    );
   }
 
   return (

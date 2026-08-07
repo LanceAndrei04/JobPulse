@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { PercentageBar } from "./primitives/percentage-bar";
 import { RankedBarRow } from "./primitives/ranked-bar-row";
 import { SectionHeader } from "./primitives/section-header";
+import { InsufficientDataState } from "./primitives/insufficient-data-state";
 import { formatCount, formatPercent } from "../utils/format";
 import { getSkillHref } from "../utils/entity-routes";
 import type { RelatedSkill } from "../types/skill-intelligence.types";
@@ -19,7 +20,16 @@ export function SkillEcosystemSection({
   primaryRelatedSkill,
 }: SkillEcosystemSectionProps) {
   if (relatedSkills.length === 0) {
-    return null;
+    return (
+      <section id="ecosystem">
+        <SectionHeader
+          eyebrow="03"
+          title="Skill Ecosystem"
+          question={`What skills are most frequently detected alongside ${skillName}?`}
+        />
+        <InsufficientDataState description="Co-detected skill patterns are still forming for this skill." />
+      </section>
+    );
   }
 
   const compactSkills = primaryRelatedSkill

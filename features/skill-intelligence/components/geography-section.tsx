@@ -1,6 +1,7 @@
 import { MapPin } from "lucide-react";
 import { PercentageBar } from "./primitives/percentage-bar";
 import { SectionHeader } from "./primitives/section-header";
+import { InsufficientDataState } from "./primitives/insufficient-data-state";
 import { formatCount, formatPercent } from "../utils/format";
 import type { SkillLocationDistribution } from "../types/skill-intelligence.types";
 
@@ -10,7 +11,16 @@ type GeographySectionProps = {
 
 export function GeographySection({ locations }: GeographySectionProps) {
   if (locations.length === 0) {
-    return null;
+    return (
+      <section id="geography">
+        <SectionHeader
+          eyebrow="05"
+          title="Geographic Context"
+          question="Where is this skill most often observed in the current sample?"
+        />
+        <InsufficientDataState description="Location data is not strong enough yet for this skill." />
+      </section>
+    );
   }
 
   return (
