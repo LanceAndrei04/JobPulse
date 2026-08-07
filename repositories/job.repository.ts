@@ -3,6 +3,37 @@ import { Prisma } from "@/lib/generated/prisma";
 import { JobQuery } from "@/types/job";
 
 export class JobRepository {
+  async findBySourceAndExternalId(
+    source: string,
+    externalId: string
+  ) {
+    return prisma.jobPosting.findUnique({
+      where: {
+        source_externalId: {
+          source,
+          externalId,
+        },
+      },
+    });
+  }
+
+  async upsert(
+    job: Prisma.JobPostingCreateInput
+  ) {
+    return prisma.jobPosting.upsert({
+      where: {
+        source_externalId: {
+          source: job.source,
+          externalId: job.externalId,
+        },
+      },
+
+      update: job,
+      create: job,
+    });
+  }
+
+
   async upsert(job: Prisma.JobPostingCreateInput) {
     return prisma.jobPosting.upsert({
       where: {
@@ -126,6 +157,35 @@ async attachSkills(jobId: string, skills: Skill[]) {
       skillId: skill.id,
     })),
     skipDuplicates: true,
+  });
+}
+async findByIds(ids: string[]) {
+  if (ids.length === 0) {
+    return [];
+  }
+
+  return prisma.jobPosting.findMany({
+    where: {
+      id: {
+        in: ids,
+      },
+    },
+
+    select: {
+      id: true,
+      title: true,
+      description: true,
+    },
+  });
+}
+
+async deleteOlderThan(cutoff: Date) {
+  return prisma.jobPosting.deleteMany({
+    where: {
+      postedAt: {
+        lt: cutoff,
+      },
+    },
   });
 }
 }

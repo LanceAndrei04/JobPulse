@@ -38,7 +38,56 @@ export class SkillExtractionService {
       skillsMatched: matched,
     };
   }
+async extractJobs(jobIds: string[]) {
+  if (jobIds.length === 0) {
+    return {
+      jobsProcessed: 0,
+      skillsMatched: 0,
+    };
+  }
 
+  const skills =
+    await this.skillRepository.findAll();
+
+  const jobs =
+    await this.jobRepository.findByIds(jobIds);
+
+  let matched = 0;
+
+  for (const job of jobs) {
+    const titleSkills =
+      this.extract(job.title, skills);
+
+    const descriptionSkills =
+      this.extract(job.description, skills);
+
+    const extracted = [
+      ...new Map(
+        [
+          ...titleSkills,
+          ...descriptionSkills,
+        ].map((skill) => [
+          skill.id,
+          skill,
+        ])
+      ).values(),
+    ];
+
+    if (extracted.length > 0) {
+      await this.jobRepository.attachSkills(
+        job.id,
+        extracted
+      );
+    }
+
+    matched += extracted.length;
+  }
+
+  return {
+    jobsProcessed: jobs.length,
+    skillsMatched: matched,
+  };
+}
  private extract(text: string, skills: Skill[]): Skill[] {
   const normalizedText = this.normalize(text);
 
