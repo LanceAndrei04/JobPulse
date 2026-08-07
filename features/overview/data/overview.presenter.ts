@@ -1,8 +1,9 @@
-import { Atom, Cloud, Code2 } from "lucide-react";
+import { Atom, Cloud, Code2, Link2, Network, TrendingUp } from "lucide-react";
 import { getRoleSlug } from "@/lib/role-classifier";
 import type { OverviewAnalyticsDto } from "@/types/intelligence";
 import {
   geographicSignals as fallbackGeographicSignals,
+  keySignals as fallbackKeySignals,
   roleSegments as fallbackRoleSegments,
   salarySignals as fallbackSalarySignals,
   snapshotMetrics as fallbackSnapshotMetrics,
@@ -21,9 +22,11 @@ export function buildOverviewData(data: OverviewAnalyticsDto | null) {
         ],
       },
       snapshotMetrics: fallbackSnapshotMetrics,
+      keySignals: fallbackKeySignals,
       technologyDemand: fallbackTechnologyDemand,
       roleSegments: fallbackRoleSegments,
       salarySignals: fallbackSalarySignals,
+      salaryBaseline: "$138K",
       geographicSignals: fallbackGeographicSignals,
     };
   }
@@ -74,6 +77,29 @@ export function buildOverviewData(data: OverviewAnalyticsDto | null) {
         fill: getFill(data.overview.totalSkills, Math.max(data.overview.totalSkills, 1)),
       };
     }),
+    keySignals: [
+      data.topSkills.length >= 2
+        ? {
+            icon: TrendingUp,
+            title: `${data.topSkills[0].name} and ${data.topSkills[1].name} lead detected technology patterns.`,
+            stat: `${getPercent(data.topSkills[0].jobCount, totalJobs)} and ${getPercent(data.topSkills[1].jobCount, totalJobs)}`,
+          }
+        : null,
+      data.topRoles.length >= 2
+        ? {
+            icon: Network,
+            title: `${data.topRoles[0].role} and ${data.topRoles[1].role} dominate classified postings.`,
+            stat: `${getPercent(data.topRoles[0].jobCount + data.topRoles[1].jobCount, totalJobs)} combined`,
+          }
+        : null,
+      data.topSkills[0]
+        ? {
+            icon: Link2,
+            title: `${data.topSkills[0].name} has the strongest detected skill signal in the current dataset.`,
+            stat: `${formatCount(data.topSkills[0].jobCount)} postings`,
+          }
+        : null,
+    ].filter((signal) => signal !== null),
     technologyDemand: data.topSkills.slice(0, 4).map((skill) => ({
       label: skill.name,
       logo: skill.name.toLowerCase(),
@@ -97,6 +123,9 @@ export function buildOverviewData(data: OverviewAnalyticsDto | null) {
         : 0,
       href: `/skill/${slugify(skill.name)}`,
     })),
+    salaryBaseline: data.overview.averageSalary
+      ? formatSalary(data.overview.averageSalary)
+      : "the dataset",
     geographicSignals: data.topStates.slice(0, 3).map((state) => ({
       label: state.state ?? "Unknown",
       value: `${Math.round((state.jobCount / totalJobs) * 100)}%`,
@@ -111,6 +140,10 @@ export function formatCount(value: number) {
 
 function formatSalary(value: number) {
   return `$${Math.round(value / 1000)}K`;
+}
+
+function getPercent(value: number, total: number) {
+  return `~${Math.round((value / total) * 100)}%`;
 }
 
 function getFill(value: number, total: number) {

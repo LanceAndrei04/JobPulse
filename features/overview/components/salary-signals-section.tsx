@@ -4,10 +4,12 @@ import { salarySignals } from "../data/overview.data";
 
 type SalarySignalsSectionProps = {
   items?: typeof salarySignals;
+  baseline?: string;
 };
 
 export function SalarySignalsSection({
   items = salarySignals,
+  baseline = "$138K",
 }: SalarySignalsSectionProps) {
   return (
     <section className="overview-section">
@@ -15,8 +17,8 @@ export function SalarySignalsSection({
         <SectionIntro
           id="salary-signals"
           title="Salary Signals"
-          description="Estimated average salary compared with the $138K dataset baseline."
-          note="Dots use the $138K dataset average as the center line."
+          description={`Estimated average salary compared with the ${baseline} dataset baseline.`}
+          note={`Dots use the ${baseline} dataset average as the center line.`}
         />
         <div className="min-w-0 overflow-hidden rounded-2xl border border-border/80 bg-card/92 p-4 shadow-[var(--shadow-md)] sm:p-5">
           {items.map((item) => (

@@ -1,6 +1,6 @@
 // config/job-data.ts
 
 export const jobDataConfig = {
-  importLookbackDays: 7,
+  importLookbackDays: 30,
   retentionDays: 180,
 };

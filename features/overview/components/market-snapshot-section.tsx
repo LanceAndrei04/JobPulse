@@ -3,10 +3,12 @@ import { keySignals, snapshotMetrics } from "../data/overview.data";
 
 type MarketSnapshotSectionProps = {
   metrics?: typeof snapshotMetrics;
+  signals?: typeof keySignals;
 };
 
 export function MarketSnapshotSection({
   metrics = snapshotMetrics,
+  signals = keySignals,
 }: MarketSnapshotSectionProps) {
   return (
     <section className="overview-section">
@@ -22,7 +24,7 @@ export function MarketSnapshotSection({
           ))}
         </div>
         <div className="mt-6 grid gap-4 lg:grid-cols-3">
-          {keySignals.map((signal) => (
+          {signals.map((signal) => (
             <InsightCard key={signal.title} signal={signal} />
           ))}
         </div>

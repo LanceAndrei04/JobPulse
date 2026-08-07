@@ -23,10 +23,16 @@ export default async function Home() {
           totalJobs={overview.hero.totalJobs}
           signals={overview.hero.signals}
         />
-        <MarketSnapshotSection metrics={overview.snapshotMetrics} />
+        <MarketSnapshotSection
+          metrics={overview.snapshotMetrics}
+          signals={overview.keySignals}
+        />
         <TechnologyDemandSection items={overview.technologyDemand} />
         <RoleLandscapeSection segments={overview.roleSegments} />
-        <SalarySignalsSection items={overview.salarySignals} />
+        <SalarySignalsSection
+          items={overview.salarySignals}
+          baseline={overview.salaryBaseline}
+        />
         <GeographicConcentrationSection items={overview.geographicSignals} />
       </div>
     </main>
