@@ -35,7 +35,7 @@ export function MarketSnapshotSection({
 
 function SnapshotCard({ metric }: { metric: (typeof snapshotMetrics)[number] }) {
   return (
-    <article className="relative min-h-40 overflow-hidden rounded-xl border border-border/70 bg-card/62 p-5 shadow-[var(--shadow-sm)] backdrop-blur-xl">
+    <article className="relative min-h-40 overflow-hidden rounded-xl border border-border/80 bg-card/88 p-5 shadow-[var(--shadow-md)]">
       <div
         className="absolute -right-10 -top-10 size-36 rounded-full border border-primary/20"
         style={{
@@ -67,7 +67,7 @@ function SnapshotCard({ metric }: { metric: (typeof snapshotMetrics)[number] }) 
 
 function InsightCard({ signal }: { signal: (typeof keySignals)[number] }) {
   return (
-    <article className="rounded-xl border border-primary/18 bg-primary/10 p-5 shadow-[var(--shadow-sm)] backdrop-blur-xl transition-all hover:-translate-y-1 hover:border-primary/35">
+    <article className="rounded-xl border border-primary/22 bg-primary/14 p-5 shadow-[var(--shadow-md)] transition-all hover:-translate-y-1 hover:border-primary/35">
       <signal.icon className="size-5 text-primary" aria-hidden="true" />
       <p className="mt-4 text-base font-semibold leading-6 text-foreground">{signal.title}</p>
       <p className="mt-3 text-sm leading-5 text-muted-foreground">{signal.stat}</p>

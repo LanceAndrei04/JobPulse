@@ -15,16 +15,12 @@ export function GeographicConcentrationSection({
         <div className="min-w-0">
           <SectionIntro
             id="geographic-concentration"
-            title="Geographic Concentration"
-            description="Where collected postings appear most concentrated in the current dataset."
+            title="Top States"
+            description="States with the highest share of collected postings in the current dataset."
             note="Location share reflects detected posting locations in this sample."
           />
-          <p className="inline-flex items-center gap-2 text-sm text-muted-foreground">
-            <MapPin className="size-4 text-primary" aria-hidden="true" />A lightweight state
-            view can replace this list once the location dataset is stable.
-          </p>
         </div>
-        <div className="min-w-0 overflow-hidden rounded-2xl border border-border/80 bg-card/94 p-4 shadow-[var(--shadow-md)] sm:p-5">
+        <div className="min-w-0 overflow-hidden rounded-2xl border border-border/85 bg-card p-4 shadow-[var(--shadow-md)] sm:p-5">
           {items.map((item) => (
             <GeographicRow key={item.label} item={item} />
           ))}
@@ -41,9 +37,6 @@ function GeographicRow({ item }: { item: (typeof geographicSignals)[number] }) {
         <span className="min-w-0">
           <span className="block truncate text-sm font-semibold text-foreground sm:text-base">
             {item.label}
-          </span>
-          <span className="mt-1 block text-xs leading-4 text-muted-foreground">
-            Share of collected postings
           </span>
         </span>
         <span className="shrink-0 text-sm font-semibold text-muted-foreground">

@@ -170,6 +170,7 @@
     align-items: center;
     scroll-margin-top: 2.5rem;
     padding-block: clamp(3rem, 6vh, 5.5rem);
+    opacity: 1;
   }
 
   .overview-shell {
@@ -190,7 +191,7 @@
   .reveal-panel {
     animation: fade-up linear both;
     animation-timeline: view();
-    animation-range: entry 22% cover 48%;
+    animation-range: entry 12% cover 36%;
   }
 
   .fade-up {
@@ -308,8 +309,8 @@
 
   @keyframes fade-up {
     from {
-      opacity: 0;
-      transform: translateY(48px) scale(0.992);
+      opacity: 0.68;
+      transform: translateY(28px) scale(0.996);
     }
     to {
       opacity: 1;

@@ -13,13 +13,7 @@ export function RoleLandscapeSection({
   return (
     <section className="overview-section">
       <div className="reveal-panel mx-auto grid w-full max-w-7xl grid-cols-[minmax(18rem,0.42fr)_minmax(0,0.58fr)] items-center gap-8 px-5 py-12 sm:px-8 lg:gap-12 lg:px-10 max-lg:grid-cols-1">
-        <SectionIntro
-          id="role-landscape"
-          title="Role Landscape"
-          description="Share of classified postings by role in one segmented view, so proportion reads at a glance."
-          note="Segments represent classified posting share by title pattern."
-        />
-        <div className="rounded-2xl border border-border/80 bg-card/92 p-5 shadow-[var(--shadow-md)] sm:p-7">
+        <div className="rounded-2xl border border-border/85 bg-card p-5 shadow-[var(--shadow-md)] sm:p-7 lg:order-1">
           <div className="flex h-12 overflow-hidden rounded-xl bg-muted">
             {segments.map((segment) => (
               <span
@@ -42,6 +36,12 @@ export function RoleLandscapeSection({
             ))}
           </div>
         </div>
+        <SectionIntro
+          id="role-landscape"
+          title="Role Landscape"
+          description="Share of classified postings by role in one segmented view, so proportion reads at a glance."
+          note="Segments represent classified posting share by title pattern."
+        />
       </div>
     </section>
   );

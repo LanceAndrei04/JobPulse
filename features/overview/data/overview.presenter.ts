@@ -26,7 +26,8 @@ export function buildOverviewData(data: OverviewAnalyticsDto | null) {
       technologyDemand: fallbackTechnologyDemand,
       roleSegments: fallbackRoleSegments,
       salarySignals: fallbackSalarySignals,
-      salaryBaseline: "$138K",
+      roleSalarySignals: [],
+      salaryBaseline: "dataset average",
       geographicSignals: fallbackGeographicSignals,
     };
   }
@@ -123,6 +124,23 @@ export function buildOverviewData(data: OverviewAnalyticsDto | null) {
         : 0,
       href: `/skill/${slugify(skill.name)}`,
     })),
+    roleSalarySignals: [...data.topRoles]
+      .filter((role) => role.averageSalary !== null && role.jobsWithSalary > 0)
+      .sort((a, b) => (b.averageSalary ?? 0) - (a.averageSalary ?? 0))
+      .slice(0, 3)
+      .map((role) => ({
+        label: role.role,
+        salary: formatSalary(role.averageSalary ?? 0),
+        observations: `${formatCount(role.jobsWithSalary)} obs.`,
+        delta: data.overview.averageSalary
+          ? Math.round(
+              (((role.averageSalary ?? 0) - data.overview.averageSalary) /
+                data.overview.averageSalary) *
+                100,
+            )
+          : 0,
+        href: `/role/${slugify(role.role)}`,
+      })),
     salaryBaseline: data.overview.averageSalary
       ? formatSalary(data.overview.averageSalary)
       : "the dataset",

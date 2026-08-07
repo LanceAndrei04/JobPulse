@@ -18,7 +18,7 @@ export function TechnologyDemandSection({
           description="Most frequently detected skills in analyzed postings, now with recognizable technology marks."
           note="Bars show detected presence within the current sample, not total market share."
         />
-        <div className="min-w-0 overflow-hidden rounded-2xl border border-border/70 bg-card/58 p-4 shadow-[var(--shadow-sm)] backdrop-blur-xl sm:p-5">
+        <div className="min-w-0 overflow-hidden rounded-2xl border border-border/80 bg-card/90 p-4 shadow-[var(--shadow-md)] sm:p-5">
           {items.map((item) => (
             <TechnologyRow key={item.label} item={item} />
           ))}

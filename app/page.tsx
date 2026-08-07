@@ -30,7 +30,8 @@ export default async function Home() {
         <TechnologyDemandSection items={overview.technologyDemand} />
         <RoleLandscapeSection segments={overview.roleSegments} />
         <SalarySignalsSection
-          items={overview.salarySignals}
+          skills={overview.salarySignals}
+          roles={overview.roleSalarySignals}
           baseline={overview.salaryBaseline}
         />
         <GeographicConcentrationSection items={overview.geographicSignals} />
