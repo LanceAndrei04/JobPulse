@@ -28,30 +28,22 @@ export async function GET(request: Request) {
     const service =
       new AnalyticsService();
 
-    const [
-      states,
-      cities,
-    ] = await Promise.all([
-      service.getJobsByState(limit),
-      service.getJobsByCity(limit),
-    ]);
+    const data =
+      await service.getTopRoles(limit);
 
     return NextResponse.json({
-      data: {
-        states,
-        cities,
-      },
+      data,
     });
   } catch (error) {
     console.error(
-      "Jobs by location error:",
+      "Top roles error:",
       error
     );
 
     return NextResponse.json(
       {
         message:
-          "Failed to fetch jobs by location.",
+          "Failed to fetch top roles.",
       },
       {
         status: 500,

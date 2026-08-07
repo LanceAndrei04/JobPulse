@@ -3,9 +3,17 @@ import { AnalyticsRepository } from "@/repositories/analytics.repository";
 export class AnalyticsService {
   private repository = new AnalyticsRepository();
 
+  // =========================================================
+  // TOP SKILLS
+  // =========================================================
+
   async getTopSkills(limit = 10) {
     return this.repository.getTopSkills(limit);
   }
+
+  // =========================================================
+  // HIGHEST PAYING SKILLS
+  // =========================================================
 
   async getHighestPayingSkills(
     limit = 10,
@@ -21,13 +29,14 @@ export class AnalyticsService {
       id: row.id,
       name: row.name,
       category: row.category,
-
       averageSalary: row.averageSalary,
-
-      // PostgreSQL COUNT returns bigint
       jobsWithSalary: Number(row.jobsWithSalary),
     }));
   }
+
+  // =========================================================
+  // JOBS BY STATE
+  // =========================================================
 
   async getJobsByState(limit = 10) {
     const rows =
@@ -38,6 +47,10 @@ export class AnalyticsService {
       jobCount: row._count._all,
     }));
   }
+
+  // =========================================================
+  // JOBS BY CITY
+  // =========================================================
 
   async getJobsByCity(limit = 10) {
     const rows =
@@ -50,11 +63,31 @@ export class AnalyticsService {
     }));
   }
 
+  // =========================================================
+  // TOP ROLES
+  // =========================================================
+
+    async getTopRoles(limit = 10) {
+    const rows =
+        await this.repository.getTopRoles(limit);
+
+    return rows.map((row) => ({
+        role: row.role,
+        jobCount: Number(row.jobCount),
+        averageSalary: row.averageSalary,
+        jobsWithSalary: Number(row.jobsWithSalary),
+    }));
+    }
+
+  // =========================================================
+  // DASHBOARD OVERVIEW
+  // =========================================================
+
   async getDashboardOverview() {
     const [
       counts,
       companyCount,
-      salary,
+      salaryStats,
     ] = await Promise.all([
       this.repository.getCounts(),
       this.repository.getCompanyCount(),
@@ -62,10 +95,10 @@ export class AnalyticsService {
     ]);
 
     const averageMin =
-      salary._avg.salaryMin;
+      salaryStats._avg.salaryMin;
 
     const averageMax =
-      salary._avg.salaryMax;
+      salaryStats._avg.salaryMax;
 
     const averageSalary =
       averageMin !== null &&
@@ -84,15 +117,20 @@ export class AnalyticsService {
       averageSalary,
 
       jobsWithSalary:
-        salary._count._all,
+        salaryStats._count._all,
     };
   }
+
+  // =========================================================
+  // FULL DASHBOARD
+  // =========================================================
 
   async getDashboard() {
     const [
       overview,
       topSkills,
       highestPayingSkills,
+      topRoles,
       topStates,
       topCities,
     ] = await Promise.all([
@@ -105,6 +143,8 @@ export class AnalyticsService {
         3
       ),
 
+      this.getTopRoles(10),
+
       this.getJobsByState(10),
 
       this.getJobsByCity(10),
@@ -114,6 +154,7 @@ export class AnalyticsService {
       overview,
       topSkills,
       highestPayingSkills,
+      topRoles,
       topStates,
       topCities,
     };

@@ -13,6 +13,13 @@ type CompanyCountRow = {
   count: bigint;
 };
 
+type TopRoleRow = {
+  role: string;
+  jobCount: bigint;
+  averageSalary: number | null;
+  jobsWithSalary: bigint;
+};
+
 export class AnalyticsRepository {
   // =========================================================
   // TOP SKILLS - KEEP YOUR WORKING VERSION
@@ -188,6 +195,115 @@ export class AnalyticsRepository {
       take: limit,
     });
   }
+
+  // =========================================================
+  // TOP ROLES
+  // Classification + grouping happens in PostgreSQL
+  // =========================================================
+
+  async getTopRoles(limit: number) {
+  return prisma.$queryRaw<TopRoleRow[]>`
+    SELECT
+      "role",
+
+      COUNT(*) AS "jobCount",
+
+      ROUND(
+        AVG(
+          CASE
+            WHEN "salaryMin" IS NOT NULL
+              AND "salaryMax" IS NOT NULL
+            THEN ("salaryMin" + "salaryMax") / 2.0
+
+            WHEN "salaryMin" IS NOT NULL
+            THEN "salaryMin"
+
+            WHEN "salaryMax" IS NOT NULL
+            THEN "salaryMax"
+
+            ELSE NULL
+          END
+        )::numeric
+      )::float8 AS "averageSalary",
+
+      COUNT(
+        CASE
+          WHEN "salaryMin" IS NOT NULL
+            OR "salaryMax" IS NOT NULL
+          THEN 1
+        END
+      ) AS "jobsWithSalary"
+
+    FROM (
+      SELECT
+        "salaryMin",
+        "salaryMax",
+
+        CASE
+          WHEN LOWER("title") LIKE '%full stack%'
+            OR LOWER("title") LIKE '%full-stack%'
+            OR LOWER("title") LIKE '%fullstack%'
+          THEN 'Full Stack Developer'
+
+          WHEN LOWER("title") LIKE '%frontend%'
+            OR LOWER("title") LIKE '%front-end%'
+            OR LOWER("title") LIKE '%front end%'
+          THEN 'Frontend Developer'
+
+          WHEN LOWER("title") LIKE '%backend%'
+            OR LOWER("title") LIKE '%back-end%'
+            OR LOWER("title") LIKE '%back end%'
+          THEN 'Backend Developer'
+
+          WHEN LOWER("title") LIKE '%devops%'
+            OR LOWER("title") LIKE '%dev ops%'
+          THEN 'DevOps Engineer'
+
+          WHEN LOWER("title") LIKE '%machine learning%'
+            OR LOWER("title") LIKE '%ml engineer%'
+          THEN 'Machine Learning Engineer'
+
+          WHEN LOWER("title") LIKE '%ai engineer%'
+            OR LOWER("title") LIKE '%artificial intelligence%'
+          THEN 'AI Engineer'
+
+          WHEN LOWER("title") LIKE '%data engineer%'
+          THEN 'Data Engineer'
+
+          WHEN LOWER("title") LIKE '%cloud engineer%'
+            OR LOWER("title") LIKE '%cloud developer%'
+          THEN 'Cloud Engineer'
+
+          WHEN LOWER("title") LIKE '%cybersecurity%'
+            OR LOWER("title") LIKE '%cyber security%'
+            OR LOWER("title") LIKE '%security engineer%'
+          THEN 'Cybersecurity Engineer'
+
+          WHEN LOWER("title") LIKE '%android%'
+            OR LOWER("title") LIKE '%ios developer%'
+            OR LOWER("title") LIKE '%mobile developer%'
+            OR LOWER("title") LIKE '%mobile engineer%'
+          THEN 'Mobile Developer'
+
+          WHEN LOWER("title") LIKE '%software engineer%'
+            OR LOWER("title") LIKE '%software developer%'
+          THEN 'Software Engineer'
+
+          ELSE NULL
+        END AS "role"
+
+      FROM "JobPosting"
+    ) classified
+
+    WHERE "role" IS NOT NULL
+
+    GROUP BY "role"
+
+    ORDER BY COUNT(*) DESC
+
+    LIMIT ${limit};
+  `;
+}
 
   // =========================================================
   // TOTAL JOBS + TOTAL SKILLS
