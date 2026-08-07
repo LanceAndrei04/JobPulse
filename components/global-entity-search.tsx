@@ -78,7 +78,7 @@ export function GlobalEntitySearch() {
         id="entity-search-results"
         role="listbox"
         className={cn(
-          "absolute left-0 right-0 top-[calc(100%+0.55rem)] z-30 overflow-hidden rounded-xl border border-border bg-card p-2 shadow-[var(--shadow-md)] transition-all",
+          "absolute left-0 right-0 top-[calc(100%+0.55rem)] z-50 overflow-hidden rounded-xl border border-border/80 bg-popover/98 p-2 shadow-[0_24px_70px_rgba(0,0,0,0.45)] backdrop-blur-xl transition-all",
           isOpen ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-1 opacity-0"
         )}
       >
@@ -91,14 +91,16 @@ export function GlobalEntitySearch() {
               aria-selected={activeIndex === index}
               className={cn(
                 "group flex items-center justify-between rounded-lg px-3 py-3 outline-none transition-colors focus-visible:ring-3 focus-visible:ring-ring/35",
-                activeIndex === index ? "bg-accent text-accent-foreground" : "hover:bg-muted"
+                activeIndex === index
+                  ? "bg-muted text-foreground"
+                  : "hover:bg-muted/70"
               )}
               onMouseEnter={() => setActiveIndex(index)}
             >
-              <span>
-                <span className="block text-sm font-semibold text-foreground">{result.name}</span>
-                <span className="mt-1 block text-xs text-muted-foreground">
-                  {result.type} - {result.supportingText}
+              <span className="flex min-w-0 items-center gap-2">
+                <span className="truncate text-sm font-semibold text-foreground">{result.name}</span>
+                <span className="rounded-md border border-primary/20 bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary">
+                  {result.type}
                 </span>
               </span>
               <ArrowRight className="size-4 text-muted-foreground opacity-0 transition-all group-hover:translate-x-0.5 group-hover:opacity-100" aria-hidden="true" />

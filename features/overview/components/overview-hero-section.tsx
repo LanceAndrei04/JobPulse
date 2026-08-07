@@ -16,11 +16,14 @@ export function OverviewHeroSection() {
             JobPulse turns collected job postings into clear, cautious signals about skills,
             roles, salary, and location so you can decide what to learn next.
           </p>
-          <div className="mt-8">
+          <div className="mt-8 lg:hidden">
             <GlobalEntitySearch />
           </div>
         </div>
-        <div className="reveal-panel min-w-0 max-lg:hidden">
+        <div className="reveal-panel relative z-20 min-w-0 space-y-4 max-lg:hidden">
+          <div className="relative z-30 mx-auto w-full max-w-2xl">
+            <GlobalEntitySearch />
+          </div>
           <HeroSignalVisual />
         </div>
       </div>
