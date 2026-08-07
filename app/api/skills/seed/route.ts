@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
+import { requireAdminApiAuth } from "@/lib/api-auth";
 import { SkillSeedService } from "@/services/skill-seed.service";
 
-export async function POST() {
+export async function POST(request: Request) {
+  const unauthorized = requireAdminApiAuth(request);
+  if (unauthorized) return unauthorized;
+
   try {
     const service = new SkillSeedService();
 

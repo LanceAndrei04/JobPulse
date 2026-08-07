@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
+import { requireAdminApiAuth } from "@/lib/api-auth";
 import { SkillExtractionService } from "@/services/skill-extraction.service";
 
 export async function POST(request: NextRequest) {
+  const unauthorized = requireAdminApiAuth(request);
+  if (unauthorized) return unauthorized;
+
   try {
     const { searchParams } = new URL(request.url);
 

@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
+import { requireAdminApiAuth } from "@/lib/api-auth";
 import { JobIngestionService } from "@/services/job-ingestion.service";
 
 export async function POST(request: Request) {
+  const unauthorized = requireAdminApiAuth(request);
+  if (unauthorized) return unauthorized;
+
   try {
     const { searchParams } = new URL(request.url);
 
