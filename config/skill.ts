@@ -1,4 +1,4 @@
-import { SkillCategory } from "@/lib/generated/prisma";
+import { SkillCategory } from "@/lib/generated/prisma/client";
 
 export const skills = [
 

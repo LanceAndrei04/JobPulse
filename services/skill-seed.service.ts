@@ -1,4 +1,4 @@
-import { skills } from "@/config/skills";
+import { skills } from "@/config/skill";
 import { SkillRepository } from "@/repositories/skill.repository";
 
 export class SkillSeedService {
