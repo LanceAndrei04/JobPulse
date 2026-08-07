@@ -173,4 +173,4 @@ JobPulse is intentionally scoped as an MVP. Planned areas of expansion:
 
 ---
 
-Built by [YOUR_NAME](https://github.com/LanceAndrei04) · [LinkedIn](https://linkedin.com/in/lance-andrei-espina)
+Built by [Lance Andrei](https://github.com/LanceAndrei04) · [LinkedIn](https://linkedin.com/in/lance-andrei-espina)
