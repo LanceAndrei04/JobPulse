@@ -1,12 +1,16 @@
 import Link from "next/link";
 import {
+  Atom,
   Building2,
   CircleDollarSign,
+  Cloud,
+  Code2,
   Database,
   Layers3,
   Link2,
   MapPin,
   Network,
+  Search,
   TrendingUp,
 } from "lucide-react";
 import { GlobalEntitySearch } from "@/components/global-entity-search";
@@ -62,18 +66,18 @@ const keySignals = [
 ];
 
 const technologyDemand = [
-  { label: "React", count: "427", value: "~18%", percentage: 100, href: "/skill/react" },
-  { label: "AWS", count: "386", value: "~16%", percentage: 90, href: "/skill/aws" },
-  { label: "Python", count: "342", value: "~14%", percentage: 80, href: "/skill/python" },
-  { label: "TypeScript", count: "311", value: "~13%", percentage: 73, href: "/skill/typescript" },
+  { label: "React", logo: "react", count: "427", value: "~18%", percentage: 100, href: "/skill/react" },
+  { label: "AWS", logo: "aws", count: "386", value: "~16%", percentage: 90, href: "/skill/aws" },
+  { label: "Python", logo: "python", count: "342", value: "~14%", percentage: 80, href: "/skill/python" },
+  { label: "TypeScript", logo: "ts", count: "311", value: "~13%", percentage: 73, href: "/skill/typescript" },
 ];
 
 const roleSegments = [
   { label: "Software engineer", value: 18, color: "bg-primary" },
-  { label: "Backend", value: 15, color: "bg-violet-500" },
-  { label: "Frontend", value: 12, color: "bg-emerald-500" },
-  { label: "Full stack", value: 10, color: "bg-orange-500" },
-  { label: "DevOps", value: 8, color: "bg-zinc-600" },
+  { label: "Backend", value: 15, color: "bg-sky-300" },
+  { label: "Frontend", value: 12, color: "bg-emerald-300" },
+  { label: "Full stack", value: 10, color: "bg-amber-300" },
+  { label: "DevOps", value: 8, color: "bg-slate-500" },
 ];
 
 const salarySignals = [
@@ -98,35 +102,40 @@ function SectionHeading({
   description: string;
 }) {
   return (
-    <div className="mb-3">
-      <h2 id={id} className="text-base font-bold leading-none text-foreground">{title}</h2>
-      <p className="mt-1.5 text-[11px] leading-4 text-muted-foreground">{description}</p>
+    <div className="mb-8 max-w-2xl">
+      <p className="mb-3 font-heading text-xs font-semibold uppercase tracking-[0.18em] text-primary/80">
+        Overview
+      </p>
+      <h2 id={id} className="font-heading text-4xl font-semibold leading-tight text-foreground md:text-5xl">
+        {title}
+      </h2>
+      <p className="mt-4 text-base leading-7 text-muted-foreground md:text-lg">{description}</p>
     </div>
   );
 }
 
 function SnapshotCard({ metric }: { metric: (typeof snapshotMetrics)[number] }) {
   return (
-    <article className="relative min-h-20 overflow-hidden rounded-md border border-border bg-card p-4 shadow-[var(--shadow-xs)]">
+    <article className="relative min-h-44 overflow-hidden rounded-xl border border-border bg-card/82 p-6 shadow-[var(--shadow-sm)] backdrop-blur">
       <div
-        className="absolute -right-8 -top-8 size-24 rounded-full border border-primary/20"
+        className="absolute -right-10 -top-10 size-36 rounded-full border border-primary/20"
         style={{
           background: `radial-gradient(circle, color-mix(in oklch, var(--primary) ${metric.fill}%, transparent) 0 2px, transparent 2px 100%)`,
-          backgroundSize: "10px 10px",
-          opacity: 0.2,
+          backgroundSize: "12px 12px",
+          opacity: 0.24,
         }}
         aria-hidden="true"
       />
-      <div className="relative flex items-start justify-between gap-3">
+      <div className="relative flex items-start justify-between gap-4">
         <div>
-          <p className="text-[11px] font-medium text-muted-foreground">{metric.label}</p>
-          <p className="mt-1 text-xl font-black leading-none text-foreground">{metric.value}</p>
-          <p className="mt-2 text-[10px] leading-3 text-muted-foreground">{metric.detail}</p>
+          <p className="font-heading text-sm font-medium text-muted-foreground">{metric.label}</p>
+          <p className="mt-3 font-heading text-4xl font-semibold leading-none text-foreground">{metric.value}</p>
+          <p className="mt-4 text-sm leading-5 text-muted-foreground">{metric.detail}</p>
         </div>
-        <metric.icon className="size-3.5 text-primary" aria-hidden="true" />
+        <metric.icon className="size-5 text-primary" aria-hidden="true" />
       </div>
       {metric.delta ? (
-        <span className="relative mt-3 inline-flex rounded-sm bg-emerald-500/12 px-1.5 py-0.5 text-[10px] font-semibold text-emerald-300">
+        <span className="relative mt-5 inline-flex rounded-md border border-emerald-300/20 bg-emerald-300/10 px-2.5 py-1 font-heading text-xs font-semibold text-emerald-200">
           {metric.delta}
         </span>
       ) : null}
@@ -136,28 +145,49 @@ function SnapshotCard({ metric }: { metric: (typeof snapshotMetrics)[number] }) 
 
 function InsightCard({ signal }: { signal: (typeof keySignals)[number] }) {
   return (
-    <article className="rounded-md border border-primary/20 bg-primary/20 p-4 shadow-[var(--shadow-xs)]">
-      <signal.icon className="size-4 text-primary" aria-hidden="true" />
-      <p className="mt-3 text-xs font-bold leading-4 text-foreground">{signal.title}</p>
-      <p className="mt-1 text-[11px] leading-4 text-primary-foreground/75">{signal.stat}</p>
+    <article className="rounded-xl border border-primary/18 bg-primary/10 p-6 shadow-[var(--shadow-sm)] backdrop-blur transition-all hover:-translate-y-1 hover:border-primary/35">
+      <signal.icon className="size-5 text-primary" aria-hidden="true" />
+      <p className="mt-5 font-heading text-lg font-semibold leading-6 text-foreground">{signal.title}</p>
+      <p className="mt-3 text-sm leading-5 text-muted-foreground">{signal.stat}</p>
     </article>
   );
+}
+
+function TechLogo({ type }: { type: string }) {
+  if (type === "react") {
+    return <Atom className="size-5 text-primary" aria-hidden="true" />;
+  }
+
+  if (type === "aws") {
+    return <Cloud className="size-5 text-primary" aria-hidden="true" />;
+  }
+
+  if (type === "python") {
+    return <Code2 className="size-5 text-primary" aria-hidden="true" />;
+  }
+
+  return <span className="font-heading text-sm font-bold text-primary">TS</span>;
 }
 
 function TechnologyRow({ item }: { item: (typeof technologyDemand)[number] }) {
   return (
     <Link
       href={item.href}
-      className="grid grid-cols-[5.5rem_1fr_4.4rem] items-center gap-3 rounded-sm py-1 outline-none transition-colors hover:text-primary focus-visible:ring-3 focus-visible:ring-ring/35"
+      className="group grid grid-cols-[13rem_1fr_6rem] items-center gap-5 rounded-xl border border-transparent px-3 py-3 outline-none transition-all hover:border-primary/20 hover:bg-card/55 focus-visible:ring-3 focus-visible:ring-ring/35 max-md:grid-cols-1 max-md:gap-2"
     >
-      <span className="text-xs font-bold text-foreground">{item.label}</span>
-      <span className="h-2 overflow-hidden rounded-full bg-muted">
+      <span className="flex items-center gap-3">
+        <span className="flex size-10 items-center justify-center rounded-lg border border-border bg-card shadow-[var(--shadow-xs)]">
+          <TechLogo type={item.logo} />
+        </span>
+        <span className="font-heading text-base font-semibold text-foreground">{item.label}</span>
+      </span>
+      <span className="h-3 overflow-hidden rounded-full bg-muted">
         <span
-          className="block h-full rounded-full bg-primary transition-[width] duration-300"
+          className="block h-full rounded-full bg-primary transition-[width] duration-500 group-hover:bg-sky-200"
           style={{ width: `${item.percentage}%` }}
         />
       </span>
-      <span className="text-right text-[11px] font-semibold text-muted-foreground">
+      <span className="text-right font-heading text-sm font-semibold text-muted-foreground max-md:text-left">
         {item.count} - {item.value}
       </span>
     </Link>
@@ -168,8 +198,8 @@ function RoleLandscape() {
   const total = roleSegments.reduce((sum, segment) => sum + segment.value, 0);
 
   return (
-    <div>
-      <div className="flex h-7 overflow-hidden rounded-sm bg-muted">
+    <div className="rounded-2xl border border-border bg-card/70 p-7 shadow-[var(--shadow-sm)]">
+      <div className="flex h-12 overflow-hidden rounded-xl bg-muted">
         {roleSegments.map((segment) => (
           <span
             key={segment.label}
@@ -179,10 +209,10 @@ function RoleLandscape() {
           />
         ))}
       </div>
-      <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1">
+      <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2">
         {roleSegments.map((segment) => (
-          <span key={segment.label} className="inline-flex items-center gap-1 text-[10px] text-muted-foreground">
-            <span className={`size-1.5 rounded-full ${segment.color}`} aria-hidden="true" />
+          <span key={segment.label} className="inline-flex items-center gap-2 text-sm text-muted-foreground">
+            <span className={`size-2 rounded-full ${segment.color}`} aria-hidden="true" />
             {segment.label} {segment.value}%
           </span>
         ))}
@@ -194,27 +224,27 @@ function RoleLandscape() {
 function SalarySignal({ item }: { item: (typeof salarySignals)[number] }) {
   const markerPosition = 50 + item.delta * 3.1;
   const barLeft = item.delta < 0 ? markerPosition : 50;
-  const barWidth = Math.abs(item.delta) * 9;
+  const barWidth = Math.abs(item.delta) * 12;
 
   return (
     <Link
       href={item.href}
-      className="grid grid-cols-[4.5rem_1fr_6rem] items-center gap-3 rounded-sm py-1.5 outline-none transition-colors hover:text-primary focus-visible:ring-3 focus-visible:ring-ring/35"
+      className="group grid grid-cols-[8rem_1fr_8rem] items-center gap-5 rounded-xl px-3 py-4 outline-none transition-all hover:bg-card/55 focus-visible:ring-3 focus-visible:ring-ring/35 max-md:grid-cols-1 max-md:gap-2"
     >
-      <span className="text-xs font-bold text-foreground">{item.label}</span>
-      <span className="relative h-7">
-        <span className="absolute left-1/2 top-0 h-full w-px bg-muted-foreground/40" aria-hidden="true" />
+      <span className="font-heading text-base font-semibold text-foreground">{item.label}</span>
+      <span className="relative h-10">
+        <span className="absolute left-1/2 top-0 h-full w-px bg-muted-foreground/45" aria-hidden="true" />
         <span
-          className="absolute top-1/2 h-1.5 -translate-y-1/2 rounded-full bg-emerald-500"
+          className="absolute top-1/2 h-2 -translate-y-1/2 rounded-full bg-emerald-300"
           style={{ left: `${barLeft}%`, width: `${barWidth}px` }}
         />
         <span
-          className="absolute top-1/2 size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full border border-background bg-emerald-400"
+          className="absolute top-1/2 size-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-background bg-emerald-200 shadow-[0_0_20px_rgba(110,231,183,0.45)]"
           style={{ left: `${markerPosition}%` }}
           aria-hidden="true"
         />
       </span>
-      <span className="text-right text-[11px] font-semibold text-muted-foreground">
+      <span className="text-right font-heading text-sm font-semibold text-muted-foreground max-md:text-left">
         {item.salary} - {item.observations}
       </span>
     </Link>
@@ -223,12 +253,60 @@ function SalarySignal({ item }: { item: (typeof salarySignals)[number] }) {
 
 function GeographicRow({ item }: { item: (typeof geographicSignals)[number] }) {
   return (
-    <div className="grid grid-cols-[5.5rem_1fr_2.2rem] items-center gap-3 py-1">
-      <span className="text-xs font-bold text-foreground">{item.label}</span>
-      <span className="h-2 overflow-hidden rounded-full bg-muted">
+    <div className="grid grid-cols-[9rem_1fr_3rem] items-center gap-4 py-3 max-md:grid-cols-1 max-md:gap-2">
+      <span className="font-heading text-base font-semibold text-foreground">{item.label}</span>
+      <span className="h-3 overflow-hidden rounded-full bg-muted">
         <span className="block h-full rounded-full bg-primary" style={{ width: `${item.percentage}%` }} />
       </span>
-      <span className="text-right text-[11px] font-semibold text-muted-foreground">{item.value}</span>
+      <span className="text-right font-heading text-sm font-semibold text-muted-foreground max-md:text-left">{item.value}</span>
+    </div>
+  );
+}
+
+function HeroSignalVisual() {
+  return (
+    <div className="relative min-h-[500px] overflow-hidden rounded-[1.75rem] border border-border bg-card/55 p-6 shadow-[var(--shadow-md)] backdrop-blur">
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.045)_1px,transparent_1px)] bg-[size:42px_42px]" aria-hidden="true" />
+      <div className="parallax-slow absolute left-10 top-12 h-48 w-48 rounded-full bg-primary/16 blur-3xl" aria-hidden="true" />
+      <div className="signal-drift absolute bottom-8 right-10 h-56 w-56 rounded-full bg-emerald-300/10 blur-3xl" aria-hidden="true" />
+
+      <div className="relative z-10 grid h-full min-h-[450px] place-items-center">
+        <svg className="absolute inset-0 h-full w-full text-primary/45" viewBox="0 0 520 440" aria-hidden="true">
+          <path d="M70 270 C150 150 260 320 450 120" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="6 12" />
+          <path d="M90 120 C180 250 300 90 430 250" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="2 14" />
+          <path d="M120 340 C230 210 330 360 455 300" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="8 14" />
+        </svg>
+
+        <div className="relative flex size-56 items-center justify-center rounded-full border border-primary/25 bg-background/70 shadow-[0_0_80px_rgba(77,166,255,0.16)]">
+          <div className="signal-pulse absolute size-72 rounded-full border border-primary/15" />
+          <div className="signal-pulse absolute size-96 rounded-full border border-primary/10 [animation-delay:900ms]" />
+          <div className="grid text-center">
+            <span className="font-heading text-5xl font-semibold text-foreground">1,284</span>
+            <span className="mt-2 text-sm text-muted-foreground">postings analyzed</span>
+          </div>
+        </div>
+
+        <div className="absolute left-8 top-12 rounded-xl border border-border bg-background/75 px-4 py-3 shadow-[var(--shadow-sm)] backdrop-blur">
+          <span className="flex items-center gap-2 font-heading text-sm font-semibold text-foreground">
+            <Atom className="size-4 text-primary" />
+            React
+          </span>
+          <p className="mt-1 text-xs text-muted-foreground">427 postings</p>
+        </div>
+
+        <div className="absolute right-10 top-28 rounded-xl border border-border bg-background/75 px-4 py-3 shadow-[var(--shadow-sm)] backdrop-blur">
+          <span className="flex items-center gap-2 font-heading text-sm font-semibold text-foreground">
+            <Cloud className="size-4 text-primary" />
+            AWS
+          </span>
+          <p className="mt-1 text-xs text-muted-foreground">386 postings</p>
+        </div>
+
+        <div className="absolute bottom-14 left-16 rounded-xl border border-border bg-background/75 px-4 py-3 shadow-[var(--shadow-sm)] backdrop-blur">
+          <span className="font-heading text-sm font-semibold text-foreground">TypeScript</span>
+          <p className="mt-1 text-xs text-muted-foreground">68% with React</p>
+        </div>
+      </div>
     </div>
   );
 }
@@ -236,89 +314,112 @@ function GeographicRow({ item }: { item: (typeof geographicSignals)[number] }) {
 export default function Home() {
   return (
     <main className="flex-1">
-      <section className="mx-auto flex w-full max-w-[760px] flex-col gap-8 px-4 pb-14 pt-4 sm:px-6">
-        <section className="max-w-[560px]">
-          <h1 className="max-w-[520px] text-[2rem] font-black leading-[1.02] tracking-normal text-foreground sm:text-[2.55rem]">
-            Understand what developer job postings are asking for.
-          </h1>
-          <p className="mt-3 max-w-[470px] text-xs font-semibold leading-5 text-muted-foreground">
-            JobPulse turns collected posting data into cautious, explorable signals about skills, roles, salary and location.
-          </p>
-          <div className="mt-5">
-            <GlobalEntitySearch />
+      <section className="overview-section">
+        <div className="mx-auto grid w-full max-w-7xl grid-cols-[0.9fr_1.1fr] items-center gap-12 px-5 py-10 sm:px-8 lg:px-10 max-lg:grid-cols-1">
+          <div className="reveal-panel max-w-3xl">
+            <p className="mb-5 font-heading text-sm font-semibold uppercase tracking-[0.18em] text-primary/80">
+              Developer market signals
+            </p>
+            <h1 className="font-heading text-6xl font-semibold leading-[0.96] tracking-normal text-foreground md:text-7xl">
+              Understand what developer job postings are asking for.
+            </h1>
+            <p className="mt-7 max-w-2xl text-lg leading-8 text-muted-foreground">
+              JobPulse turns collected posting data into cautious, explorable signals about skills, roles, salary and location.
+            </p>
+            <div className="mt-8">
+              <GlobalEntitySearch />
+            </div>
+            <p className="mt-10 inline-flex items-center gap-2 text-sm text-muted-foreground">
+              <Search className="size-4 text-primary" aria-hidden="true" />
+              Scroll to reveal the current dataset overview.
+            </p>
           </div>
-        </section>
+          <div className="reveal-panel">
+            <HeroSignalVisual />
+          </div>
+        </div>
+      </section>
 
-        <section aria-label="Market snapshot" className="grid gap-3 sm:grid-cols-4">
-          {snapshotMetrics.map((metric) => (
-            <SnapshotCard key={metric.label} metric={metric} />
-          ))}
-        </section>
-
-        <section aria-labelledby="key-market-signals">
+      <section className="overview-section">
+        <div className="reveal-panel mx-auto w-full max-w-7xl px-5 py-16 sm:px-8 lg:px-10">
           <SectionHeading
-            id="key-market-signals"
-            title="Key Market Signals"
-            description="Short observations surfaced before the raw section views."
+            id="market-snapshot"
+            title="Market Snapshot"
+            description="Dataset-scale context appears first, followed by short signals before the raw section views."
           />
-          <div className="grid gap-3 sm:grid-cols-3">
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            {snapshotMetrics.map((metric) => (
+              <SnapshotCard key={metric.label} metric={metric} />
+            ))}
+          </div>
+          <div className="mt-6 grid gap-4 lg:grid-cols-3">
             {keySignals.map((signal) => (
               <InsightCard key={signal.title} signal={signal} />
             ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section aria-labelledby="technology-demand">
+      <section className="overview-section">
+        <div className="reveal-panel mx-auto grid w-full max-w-7xl grid-cols-[0.45fr_0.55fr] items-center gap-12 px-5 py-16 sm:px-8 lg:px-10 max-lg:grid-cols-1">
           <SectionHeading
             id="technology-demand"
             title="Technology Demand"
-            description="Most frequently detected skills in analyzed postings."
+            description="Most frequently detected skills in analyzed postings, now with recognizable technology marks."
           />
-          <div className="grid gap-0.5">
+          <div className="rounded-2xl border border-border bg-card/70 p-5 shadow-[var(--shadow-sm)] backdrop-blur">
             {technologyDemand.map((item) => (
               <TechnologyRow key={item.label} item={item} />
             ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section aria-labelledby="role-landscape">
+      <section className="overview-section">
+        <div className="reveal-panel mx-auto grid w-full max-w-7xl grid-cols-[0.45fr_0.55fr] items-center gap-12 px-5 py-16 sm:px-8 lg:px-10 max-lg:grid-cols-1">
           <SectionHeading
             id="role-landscape"
             title="Role Landscape"
-            description="Share of classified postings by role - one bar, five roles."
+            description="Share of classified postings by role in one segmented view, so proportion reads at a glance."
           />
           <RoleLandscape />
-        </section>
+        </div>
+      </section>
 
-        <section aria-labelledby="salary-signals">
+      <section className="overview-section">
+        <div className="reveal-panel mx-auto grid w-full max-w-7xl grid-cols-[0.45fr_0.55fr] items-center gap-12 px-5 py-16 sm:px-8 lg:px-10 max-lg:grid-cols-1">
           <SectionHeading
             id="salary-signals"
             title="Salary Signals"
             description="Estimated average salary compared with the $138K dataset baseline."
           />
-          <div className="grid gap-0.5">
+          <div className="rounded-2xl border border-border bg-card/70 p-5 shadow-[var(--shadow-sm)] backdrop-blur">
             {salarySignals.map((item) => (
               <SalarySignal key={item.label} item={item} />
             ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section aria-labelledby="geographic-concentration">
-          <SectionHeading
-            id="geographic-concentration"
-            title="Geographic Concentration"
-            description="Where collected postings appear most concentrated."
-          />
-          <div className="grid gap-0.5">
+      <section className="overview-section">
+        <div className="reveal-panel mx-auto grid w-full max-w-7xl grid-cols-[0.45fr_0.55fr] items-center gap-12 px-5 py-16 sm:px-8 lg:px-10 max-lg:grid-cols-1">
+          <div>
+            <SectionHeading
+              id="geographic-concentration"
+              title="Geographic Concentration"
+              description="Where collected postings appear most concentrated in the current dataset."
+            />
+            <p className="inline-flex items-center gap-2 text-sm text-muted-foreground">
+              <MapPin className="size-4 text-primary" aria-hidden="true" />
+              A lightweight state view can replace this list once the location dataset is stable.
+            </p>
+          </div>
+          <div className="rounded-2xl border border-border bg-card/70 p-5 shadow-[var(--shadow-sm)] backdrop-blur">
             {geographicSignals.map((item) => (
               <GeographicRow key={item.label} item={item} />
             ))}
           </div>
-          <p className="mt-3 inline-flex items-center gap-1.5 text-[11px] text-muted-foreground">
-            <MapPin className="size-3 text-primary" aria-hidden="true" />
-            A lightweight state view can replace this list once the location dataset is stable.
-          </p>
-        </section>
+        </div>
       </section>
     </main>
   );
